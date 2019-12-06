@@ -1,88 +1,121 @@
-import React from 'react'
-import Head from 'next/head'
-import Nav from '../components/nav'
+import React, { useState } from "react";
+import Link from "next/link";
+import Head from "next/head";
+import Axios from "axios";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+dayjs.extend(relativeTime);
+import "../styles.scss";
+import Nav from "../components/nav";
+import { apiDomain } from "../utils/constants";
 
-const Home = () => (
-  <div>
-    <Head>
-      <title>Home</title>
-      <link rel="icon" href="/favicon.ico" />
-    </Head>
+const Home = props => {
+  const { data: initialData, categories } = props;
+  const [data, setData] = useState(initialData);
+  const [loading, setLoading] = useState(false);
+  const { products } = data;
+  return (
+    <>
+      <Head>
+        <title>Ahegao faces</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
 
-    <Nav />
+      <Nav categories={categories} />
 
-    <div className="hero">
-      <h1 className="title">Welcome to Next.js!</h1>
-      <p className="description">
-        To get started, edit <code>pages/index.js</code> and save to reload.
-      </p>
-
-      <div className="row">
-        <a href="https://nextjs.org/docs" className="card">
-          <h3>Documentation &rarr;</h3>
-          <p>Learn more about Next.js in the documentation.</p>
-        </a>
-        <a href="https://nextjs.org/learn" className="card">
-          <h3>Next.js Learn &rarr;</h3>
-          <p>Learn about Next.js by following an interactive tutorial!</p>
-        </a>
-        <a
-          href="https://github.com/zeit/next.js/tree/master/examples"
-          className="card"
+      <div className="container">
+        <div className="row">
+          {products.map(el => {
+            return (
+              <div className="col-sm-12 col-md-6" key={el.id}>
+                <div className="d-flex align-items-center mb-2 justify-content-between">
+                  <Link href="/user/[pid]" as={`/user/${el.user_id}`}>
+                    <div className="d-flex align-items-center">
+                      <img
+                        height="35"
+                        width="35"
+                        className="rounded-circle"
+                        src={el.user_avatar}
+                      />
+                      <p className="mb-0 ml-2 font-weight-bold">
+                        {el.username}
+                      </p>
+                    </div>
+                  </Link>
+                  <div className="text-black-50 d-inline">
+                    {dayjs(el.updated_at).fromNow()}
+                  </div>
+                </div>
+                <Link href="/post/[pid]" as={`/post/${el.id}`}>
+                  <img
+                    className="img-fluid mb-3"
+                    src={`${apiDomain}${el.image}`}
+                  />
+                </Link>
+              </div>
+            );
+          })}
+        </div>
+        <button
+          disabled={loading}
+          className="btn btn-outline-info btn-block mb-4"
+          onClick={async () => {
+            setLoading(true);
+            try {
+              const newData = await Axios({
+                method: "get",
+                url: `https://ahegao.casply.com/api/products`,
+                params: {
+                  only_visible: true,
+                  page: data.next_page,
+                  per: 10
+                },
+                data: null,
+                headers: {
+                  "Content-type": "application/json"
+                }
+              });
+              setData({
+                ...newData.data,
+                products: [...products, ...newData.data.products]
+              });
+            } catch (e) {
+              console.log(e);
+            } finally {
+              setLoading(false);
+            }
+          }}
         >
-          <h3>Examples &rarr;</h3>
-          <p>Find other example boilerplates on the Next.js GitHub.</p>
-        </a>
+          {loading ? "Loading..." : "Load more"}
+        </button>
       </div>
-    </div>
+    </>
+  );
+};
 
-    <style jsx>{`
-      .hero {
-        width: 100%;
-        color: #333;
-      }
-      .title {
-        margin: 0;
-        width: 100%;
-        padding-top: 80px;
-        line-height: 1.15;
-        font-size: 48px;
-      }
-      .title,
-      .description {
-        text-align: center;
-      }
-      .row {
-        max-width: 880px;
-        margin: 80px auto 40px;
-        display: flex;
-        flex-direction: row;
-        justify-content: space-around;
-      }
-      .card {
-        padding: 18px 18px 24px;
-        width: 220px;
-        text-align: left;
-        text-decoration: none;
-        color: #434343;
-        border: 1px solid #9b9b9b;
-      }
-      .card:hover {
-        border-color: #067df7;
-      }
-      .card h3 {
-        margin: 0;
-        color: #067df7;
-        font-size: 18px;
-      }
-      .card p {
-        margin: 0;
-        padding: 12px 0 0;
-        font-size: 13px;
-        color: #333;
-      }
-    `}</style>
-  </div>
-)
+Home.getInitialProps = async ({ req }) => {
+  const data = await Axios({
+    method: "get",
+    url: `https://ahegao.casply.com/api/products`,
+    params: {
+      only_visible: true,
+      page: 1,
+      per: 10
+    },
+    data: null,
+    headers: {
+      "Content-type": "application/json"
+    }
+  });
+  const dataCategories = await Axios({
+    method: "get",
+    url: `https://ahegao.casply.com/api/categories`,
+    data: null,
+    headers: {
+      "Content-type": "application/json"
+    }
+  });
+  return { data: data.data, categories: dataCategories.data.categories };
+};
 
-export default Home
+export default Home;

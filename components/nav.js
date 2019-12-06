@@ -1,56 +1,50 @@
-import React from 'react'
-import Link from 'next/link'
+import React, { useState } from "react";
+import Link from "next/link";
 
-const links = [
-  { href: 'https://zeit.co/now', label: 'ZEIT' },
-  { href: 'https://github.com/zeit/next.js', label: 'GitHub' },
-].map(link => {
-  link.key = `nav-link-${link.href}-${link.label}`
-  return link
-})
+const Nav = ({ categories }) => {
+  const [isOpen, setOpen] = useState(false);
 
-const Nav = () => (
-  <nav>
-    <ul>
-      <li>
+  return (
+    <nav className="navbar navbar-expand-lg navbar-light bg-light mb-4">
+      <div className="container">
         <Link href="/">
-          <a>Home</a>
+          <a className="navbar-brand" href="#">
+            Ahegao
+          </a>
         </Link>
-      </li>
-      {links.map(({ key, href, label }) => (
-        <li key={key}>
-          <a href={href}>{label}</a>
-        </li>
-      ))}
-    </ul>
+        <button
+          className="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+          onClick={() => setOpen(!isOpen)}
+        >
+          <span className="navbar-toggler-icon"></span>
+        </button>
 
-    <style jsx>{`
-      :global(body) {
-        margin: 0;
-        font-family: -apple-system, BlinkMacSystemFont, Avenir Next, Avenir,
-          Helvetica, sans-serif;
-      }
-      nav {
-        text-align: center;
-      }
-      ul {
-        display: flex;
-        justify-content: space-between;
-      }
-      nav > ul {
-        padding: 4px 16px;
-      }
-      li {
-        display: flex;
-        padding: 6px 8px;
-      }
-      a {
-        color: #067df7;
-        text-decoration: none;
-        font-size: 13px;
-      }
-    `}</style>
-  </nav>
-)
+        <div
+          className="collapse navbar-collapse"
+          style={{ display: isOpen ? "block" : "none" }}
+          id="navbarSupportedContent"
+        >
+          <ul className="navbar-nav mr-auto">
+            {categories.map(el => (
+              <li key={el.id} className="nav-item active">
+                <Link href="/category/[pid]" as={`/category/${el.id}`}>
+                  <a className="nav-link" href="#">
+                    {el.label}
+                  </a>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </nav>
+  );
+};
 
-export default Nav
+export default Nav;
