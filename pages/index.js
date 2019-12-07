@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import Router from 'next/router'
 import Link from "next/link";
 import Head from "next/head";
 import Axios from "axios";
@@ -8,37 +7,12 @@ import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.extend(relativeTime);
 import "../styles.scss";
 import Nav from "../components/nav";
-import { apiDomain } from "../utils/constants";
+import useScrollRestoration from "../components/useScrollRestoration";
 
 let cache = {};
-let cachedScrollPositions = [];
 
 const Home = props => {
-  useEffect(() => {
-    if ('scrollRestoration' in window.history) {
-      window.history.scrollRestoration = 'manual';
-      let shouldScrollRestore;
-
-      Router.events.on('routeChangeStart', () => {
-        cachedScrollPositions.push([window.scrollX, window.scrollY]);
-      });
-
-      Router.events.on('routeChangeComplete', () => {
-        if (shouldScrollRestore) {
-          const { x, y } = shouldScrollRestore;
-          window.scrollTo(x, y);
-          shouldScrollRestore = false;
-        }
-      });
-
-      Router.beforePopState(() => {
-        const [x, y] = cachedScrollPositions.pop();
-        shouldScrollRestore = { x, y };
-
-        return true;
-      });
-    }
-  }, []);
+  useScrollRestoration();
   const { data: initialData, categories } = props;
   const [data, setData] = useState(initialData);
   useEffect(() => {
@@ -54,6 +28,7 @@ const Home = props => {
       <Head>
         <title>Ahegao faces</title>
         <link rel="icon" href="/favicon.ico" />
+        <meta name="Description" content="The best Ahegao face compilation" />
       </Head>
 
       <Nav categories={categories} />
@@ -71,6 +46,7 @@ const Home = props => {
                         width="35"
                         className="rounded-circle"
                         src={el.user_avatar}
+                        alt={`Ahegao face from ${el.username}`}
                       />
                       <p className="mb-0 ml-2 font-weight-bold">
                         {el.username}
@@ -84,7 +60,8 @@ const Home = props => {
                 <Link href="/post/[pid]" as={`/post/${el.id}`}>
                   <img
                     className="img-fluid mb-3"
-                    src={`${apiDomain}${el.image}`}
+                    src={el.image}
+                    alt="Ahegao face"
                   />
                 </Link>
               </div>

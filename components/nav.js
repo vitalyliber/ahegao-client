@@ -9,7 +9,7 @@ const Nav = ({ categories }) => {
       <div className="container">
         <Link href="/">
           <a className="navbar-brand" href="#">
-            Ahegao
+            Ahegao Faces
           </a>
         </Link>
         <button
