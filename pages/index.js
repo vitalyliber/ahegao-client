@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import Router from 'next/router'
 import Link from "next/link";
 import Head from "next/head";
 import Axios from "axios";
@@ -9,9 +10,43 @@ import "../styles.scss";
 import Nav from "../components/nav";
 import { apiDomain } from "../utils/constants";
 
+let cache = {};
+let cachedScrollPositions = [];
+
 const Home = props => {
+  useEffect(() => {
+    if ('scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual';
+      let shouldScrollRestore;
+
+      Router.events.on('routeChangeStart', () => {
+        cachedScrollPositions.push([window.scrollX, window.scrollY]);
+      });
+
+      Router.events.on('routeChangeComplete', () => {
+        if (shouldScrollRestore) {
+          const { x, y } = shouldScrollRestore;
+          window.scrollTo(x, y);
+          shouldScrollRestore = false;
+        }
+      });
+
+      Router.beforePopState(() => {
+        const [x, y] = cachedScrollPositions.pop();
+        shouldScrollRestore = { x, y };
+
+        return true;
+      });
+    }
+  }, []);
   const { data: initialData, categories } = props;
   const [data, setData] = useState(initialData);
+  useEffect(() => {
+    if (process.browser) {
+      cache["data"] = data;
+      cache["categories"] = categories;
+    }
+  }, [data]);
   const [loading, setLoading] = useState(false);
   const { products } = data;
   return (
@@ -75,10 +110,11 @@ const Home = props => {
                   "Content-type": "application/json"
                 }
               });
-              setData({
+              const mergedData = {
                 ...newData.data,
                 products: [...products, ...newData.data.products]
-              });
+              };
+              setData(mergedData);
             } catch (e) {
               console.log(e);
             } finally {
@@ -94,28 +130,37 @@ const Home = props => {
 };
 
 Home.getInitialProps = async ({ req }) => {
-  const data = await Axios({
-    method: "get",
-    url: `https://ahegao.casply.com/api/products`,
-    params: {
-      only_visible: true,
-      page: 1,
-      per: 10
-    },
-    data: null,
-    headers: {
-      "Content-type": "application/json"
-    }
-  });
-  const dataCategories = await Axios({
-    method: "get",
-    url: `https://ahegao.casply.com/api/categories`,
-    data: null,
-    headers: {
-      "Content-type": "application/json"
-    }
-  });
-  return { data: data.data, categories: dataCategories.data.categories };
+  let data;
+  let dataCategories;
+  if (cache["data"] && cache["categories"]) {
+    data = cache["data"];
+    dataCategories = cache["categories"];
+  } else {
+    const resData = await Axios({
+      method: "get",
+      url: `https://ahegao.casply.com/api/products`,
+      params: {
+        only_visible: true,
+        page: 1,
+        per: 10
+      },
+      data: null,
+      headers: {
+        "Content-type": "application/json"
+      }
+    });
+    data = resData.data;
+    const resCategories = await Axios({
+      method: "get",
+      url: `https://ahegao.casply.com/api/categories`,
+      data: null,
+      headers: {
+        "Content-type": "application/json"
+      }
+    });
+    dataCategories = resCategories.data.categories;
+  }
+  return { data: data, categories: dataCategories };
 };
 
 export default Home;
