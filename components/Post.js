@@ -6,7 +6,7 @@ import React from "react";
 
 function Post({ el }) {
   const generateSvg = (w, h) =>
-    `data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='${w}' height='${h}' ><rect width='${w}' height='${h}'/></svg>`;
+    `data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='${w}' height='${h}' ><rect width='${w}' height='${h}' style="fill:rgb(235,235,230)"/></svg>`;
   const [avatar, setAvatar] = useState(generateSvg(50, 50));
   const [image, setImage] = useState(
     generateSvg(el.metadata.width, el.metadata.height)
