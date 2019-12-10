@@ -13,12 +13,13 @@ function Post({ el }) {
   );
   return (
     <Waypoint
+      key={el.id}
       onEnter={() => {
         setImage(el.image);
         setAvatar(el.user_avatar);
       }}
     >
-      <div key={el.id}>
+      <div>
         <div className="d-flex align-items-center mb-2 justify-content-between">
           <Link href="/user/[pid]" as={`/user/${el.user_id}`}>
             <a className="text-dark">

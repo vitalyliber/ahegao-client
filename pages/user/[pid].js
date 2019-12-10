@@ -14,7 +14,6 @@ import HeadCommon from "../../components/HeadCommon";
 let cache = {};
 
 const User = props => {
-  console.log(props);
   const router = useRouter();
   const { pid } = router.query;
   useScrollRestoration();

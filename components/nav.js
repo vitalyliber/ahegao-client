@@ -1,8 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import Router from "next/router";
 import Link from "next/link";
 
 const Nav = ({ categories }) => {
   const [isOpen, setOpen] = useState(false);
+
+  useEffect(() => {
+    const handleRouteChange = url => {
+      console.log("App is changing to: ", url);
+      setOpen(false);
+    };
+
+    Router.events.on("routeChangeStart", handleRouteChange);
+    return () => {
+      Router.events.off("routeChangeStart", handleRouteChange);
+    };
+  }, []);
 
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light mb-4">
@@ -38,7 +51,7 @@ const Nav = ({ categories }) => {
           <ul className="navbar-nav mr-auto">
             {categories.map(el => (
               <li key={el.id} className="nav-item active">
-                <Link href="/category/[pid]" as={`/category/${el.id}`}>
+                <Link href="/category/[pid]" as={`/category/${el.label}`}>
                   <a className="nav-link" href="#">
                     {el.label}
                   </a>
