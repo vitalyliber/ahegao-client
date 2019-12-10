@@ -18,26 +18,26 @@ function Post({ el }) {
         setAvatar(el.user_avatar);
       }}
     >
-      <div className="col-sm-12 col-md-6" key={el.id}>
+      <div key={el.id}>
         <div className="d-flex align-items-center mb-2 justify-content-between">
           <Link href="/user/[pid]" as={`/user/${el.user_id}`}>
             <div className="d-flex align-items-center">
               <img
                 height="35"
                 width="35"
-                className="rounded-circle"
+                className="rounded-circle ml-2 ml-sm-0"
                 src={avatar}
                 alt={`Ahegao face from ${el.username}`}
               />
               <p className="mb-0 ml-2 font-weight-bold">{el.username}</p>
             </div>
           </Link>
-          <div className="text-black-50 d-inline">
+          <div className="text-black-50 d-inline mr-2 mr-sm-0">
             {dayjs(el.updated_at).fromNow()}
           </div>
         </div>
         <Link href="/post/[pid]" as={`/post/${el.id}`}>
-          <img className="img-fluid mb-3" src={image} alt="Ahegao face" />
+          <img className="img-fluid" src={image} alt="Ahegao face" />
         </Link>
       </div>
     </Waypoint>

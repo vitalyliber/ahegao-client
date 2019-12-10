@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Head from "next/head";
 import Axios from "axios";
 import dayjs from "dayjs";
+import Masonry from "react-masonry-css";
 import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.extend(relativeTime);
 import "../styles.scss";
@@ -23,6 +24,12 @@ const Home = props => {
   }, [data]);
   const [loading, setLoading] = useState(false);
   const { products } = data;
+  const breakpointColumnsObj = {
+    default: 3,
+    1100: 2,
+    700: 2,
+    500: 1
+  };
   return (
     <>
       <Head>
@@ -35,9 +42,15 @@ const Home = props => {
 
       <div className="container">
         <div className="row">
-          {products.map(el => {
-            return <Post el={el} />;
-          })}
+          <Masonry
+            breakpointCols={breakpointColumnsObj}
+            className="my-masonry-grid"
+            columnClassName="my-masonry-grid_column"
+          >
+            {products.map(el => {
+              return <Post el={el} />;
+            })}
+          </Masonry>
         </div>
         <button
           disabled={loading}
@@ -51,7 +64,7 @@ const Home = props => {
                 params: {
                   only_visible: true,
                   page: data.next_page,
-                  per: 10
+                  per: 11
                 },
                 data: null,
                 headers: {
@@ -90,7 +103,7 @@ Home.getInitialProps = async ({ req }) => {
       params: {
         only_visible: true,
         page: 1,
-        per: 10
+        per: 11
       },
       data: null,
       headers: {
