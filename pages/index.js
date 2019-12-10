@@ -5,10 +5,11 @@ import dayjs from "dayjs";
 import Masonry from "react-masonry-css";
 import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.extend(relativeTime);
-import "../styles.scss";
 import Nav from "../components/nav";
 import Post from "../components/Post";
 import useScrollRestoration from "../components/useScrollRestoration";
+import { getCategories } from "../api/categories";
+import { getPosts } from "../api/posts";
 
 let cache = {};
 
@@ -58,19 +59,7 @@ const Home = props => {
           onClick={async () => {
             setLoading(true);
             try {
-              const newData = await Axios({
-                method: "get",
-                url: `https://ahegao.casply.com/api/products`,
-                params: {
-                  only_visible: true,
-                  page: data.next_page,
-                  per: 11
-                },
-                data: null,
-                headers: {
-                  "Content-type": "application/json"
-                }
-              });
+              const newData = await await getPosts({ page: data.next_page });
               const mergedData = {
                 ...newData.data,
                 products: [...products, ...newData.data.products]
@@ -97,28 +86,9 @@ Home.getInitialProps = async ({ req }) => {
     data = cache["data"];
     dataCategories = cache["categories"];
   } else {
-    const resData = await Axios({
-      method: "get",
-      url: `https://ahegao.casply.com/api/products`,
-      params: {
-        only_visible: true,
-        page: 1,
-        per: 11
-      },
-      data: null,
-      headers: {
-        "Content-type": "application/json"
-      }
-    });
+    const resData = await getPosts();
     data = resData.data;
-    const resCategories = await Axios({
-      method: "get",
-      url: `https://ahegao.casply.com/api/categories`,
-      data: null,
-      headers: {
-        "Content-type": "application/json"
-      }
-    });
+    const resCategories = await getCategories();
     dataCategories = resCategories.data.categories;
   }
   return { data: data, categories: dataCategories };
