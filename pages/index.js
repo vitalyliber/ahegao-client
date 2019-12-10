@@ -46,27 +46,29 @@ const Home = props => {
             })}
           </Masonry>
         </div>
-        <button
-          disabled={loading}
-          className="btn btn-outline-info btn-block mb-4"
-          onClick={async () => {
-            setLoading(true);
-            try {
-              const newData = await await getPosts({ page: data.next_page });
-              const mergedData = {
-                ...newData.data,
-                products: [...products, ...newData.data.products]
-              };
-              setData(mergedData);
-            } catch (e) {
-              console.log(e);
-            } finally {
-              setLoading(false);
-            }
-          }}
-        >
-          {loading ? "Loading..." : "Load more"}
-        </button>
+        {!data.last_page && (
+          <button
+            disabled={loading}
+            className="btn btn-outline-info btn-block mb-4"
+            onClick={async () => {
+              setLoading(true);
+              try {
+                const newData = await await getPosts({ page: data.next_page });
+                const mergedData = {
+                  ...newData.data,
+                  products: [...products, ...newData.data.products]
+                };
+                setData(mergedData);
+              } catch (e) {
+                console.log(e);
+              } finally {
+                setLoading(false);
+              }
+            }}
+          >
+            {loading ? "Loading..." : "Load more"}
+          </button>
+        )}
       </div>
     </>
   );
