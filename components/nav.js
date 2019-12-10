@@ -8,6 +8,11 @@ const Nav = ({ categories }) => {
     <nav className="navbar navbar-expand-lg navbar-light bg-light mb-4">
       <div className="container">
         <Link href="/">
+          <a className="navbar-brand rounded" href="#">
+            <img src="/favicon.png" width="30" height="30" alt="" />
+          </a>
+        </Link>
+        <Link href="/">
           <a className="navbar-brand" href="#">
             Ahegao Faces
           </a>

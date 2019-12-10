@@ -5,6 +5,8 @@ import React, { useEffect, useState } from "react";
 import { getPost } from "../../api/posts";
 import { getCategories } from "../../api/categories";
 import useScrollRestoration from "../../components/useScrollRestoration";
+import HeadCommon from "../../components/HeadCommon";
+import capitalize from "../../utils/capitalize";
 
 let cache = {};
 
@@ -21,14 +23,11 @@ const Post = (props) => {
 
   return (
     <>
+      <HeadCommon />
       <Head>
-        <title>Ahegao faces</title>
-        <link rel="icon" href="/favicon.ico" />
-        <meta name="Description" content="The best Ahegao face compilation" />
+        <title>{capitalize(data.username)}'s ahegao</title>
       </Head>
-
       <Nav categories={categories} />
-
       <div className="container">
         <div className="row">
           <div className="col d-flex justify-content-center">

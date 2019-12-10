@@ -10,6 +10,7 @@ import Post from "../components/Post";
 import useScrollRestoration from "../components/useScrollRestoration";
 import { getCategories } from "../api/categories";
 import { getPosts } from "../api/posts";
+import HeadCommon from "../components/HeadCommon";
 
 let cache = {};
 
@@ -33,14 +34,8 @@ const Home = props => {
   };
   return (
     <>
-      <Head>
-        <title>Ahegao faces</title>
-        <link rel="icon" href="/favicon.ico" />
-        <meta name="Description" content="The best Ahegao face compilation" />
-      </Head>
-
+      <HeadCommon />
       <Nav categories={categories} />
-
       <div className="container">
         <div className="row">
           <Masonry
