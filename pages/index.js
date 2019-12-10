@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from "react";
-import Head from "next/head";
-import Axios from "axios";
 import dayjs from "dayjs";
 import Masonry from "react-masonry-css";
 import relativeTime from "dayjs/plugin/relativeTime";
