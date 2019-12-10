@@ -21,7 +21,7 @@ function Post({ el }) {
       <div key={el.id}>
         <div className="d-flex align-items-center mb-2 justify-content-between">
           <Link href="/user/[pid]" as={`/user/${el.user_id}`}>
-            <div className="d-flex align-items-center">
+            <div className="d-flex align-items-center cp">
               <img
                 height="35"
                 width="35"
@@ -37,7 +37,7 @@ function Post({ el }) {
           </div>
         </div>
         <Link href="/post/[pid]" as={`/post/${el.id}`}>
-          <img className="img-fluid" src={image} alt="Ahegao face" />
+          <img className="img-fluid cp" src={image} alt="Ahegao face" />
         </Link>
       </div>
     </Waypoint>
