@@ -9,6 +9,7 @@ import useScrollRestoration from "../components/useScrollRestoration";
 import { getCategories } from "../api/categories";
 import { getPosts } from "../api/posts";
 import HeadCommon from "../components/HeadCommon";
+import breakpointCols from "../utils/breakpointCols";
 
 let cache = {};
 
@@ -24,12 +25,6 @@ const Home = props => {
   }, [data]);
   const [loading, setLoading] = useState(false);
   const { products } = data;
-  const breakpointColumnsObj = {
-    default: 3,
-    1100: 2,
-    700: 2,
-    500: 1
-  };
   return (
     <>
       <HeadCommon />
@@ -37,7 +32,7 @@ const Home = props => {
       <div className="container">
         <div className="row">
           <Masonry
-            breakpointCols={breakpointColumnsObj}
+            breakpointCols={breakpointCols}
             className="my-masonry-grid"
             columnClassName="my-masonry-grid_column"
           >
