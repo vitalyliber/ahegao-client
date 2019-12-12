@@ -1,8 +1,8 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { Waypoint } from "react-waypoint";
 import dayjs from "dayjs";
-import React from "react";
+import InstagramBtn from "./InstagramBtn";
 
 function Post({ el }) {
   const generateSvg = (w, h) =>
@@ -43,6 +43,22 @@ function Post({ el }) {
             <img className="img-fluid" src={image} alt="Ahegao face" />
           </a>
         </Link>
+        <div className="d-flex justify-content-between ml-2 ml-sm-0 mr-2 mr-sm-0 mt-3">
+          <InstagramBtn el={el} />
+          <div>
+            {el.categories.map(category => {
+              return (
+                <Link
+                  key={category.label}
+                  href="/category/[pid]"
+                  as={`/category/${category.label}`}
+                >
+                  <a className="badge badge-dark ml-1">{category.label}</a>
+                </Link>
+              );
+            })}
+          </div>
+        </div>
       </div>
     </Waypoint>
   );
