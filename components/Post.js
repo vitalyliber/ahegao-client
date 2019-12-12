@@ -13,7 +13,6 @@ function Post({ el }) {
   );
   return (
     <Waypoint
-      key={el.id}
       onEnter={() => {
         setImage(el.image);
         setAvatar(el.user_avatar);

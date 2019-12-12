@@ -11,6 +11,7 @@ import { getCategories } from "../../api/categories";
 import { getPosts } from "../../api/posts";
 import HeadCommon from "../../components/HeadCommon";
 import breakpointCols from "../../utils/breakpointCols";
+import Footer from "../../components/Footer";
 
 let cache = {};
 
@@ -46,7 +47,7 @@ const Category = props => {
             columnClassName="my-masonry-grid_column"
           >
             {products.map(el => {
-              return <Post el={el} />;
+              return <Post key={el.id} el={el} />;
             })}
           </Masonry>
         </div>
@@ -77,6 +78,7 @@ const Category = props => {
           </button>
         )}
       </div>
+      <Footer />
     </>
   );
 };

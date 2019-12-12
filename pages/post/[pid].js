@@ -7,6 +7,7 @@ import { getCategories } from "../../api/categories";
 import useScrollRestoration from "../../components/useScrollRestoration";
 import HeadCommon from "../../components/HeadCommon";
 import capitalize from "../../utils/capitalize";
+import Footer from "../../components/Footer";
 
 let cache = {};
 
@@ -35,6 +36,7 @@ const Post = (props) => {
           </div>
         </div>
       </div>
+      <Footer />
     </>
   );
 };
