@@ -5,7 +5,7 @@ import { faGithub } from '@fortawesome/free-brands-svg-icons';
 
 function Footer() {
   return (
-    <footer className="text-muted pb-3 pt-3 bg-light">
+    <footer className="text-muted pb-3 pt-3 bg-light mt-3">
       <div className="container">
         <p className="mb-0 text-center">Ahegao faces, {dayjs().format("YYYY")}</p>
         <p className="text-center mt-3">

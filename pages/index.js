@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from "react";
-import dayjs from "dayjs";
 import Masonry from "react-masonry-css";
-import relativeTime from "dayjs/plugin/relativeTime";
-dayjs.extend(relativeTime);
 import Nav from "../components/nav";
 import Post from "../components/Post";
 import useScrollRestoration from "../components/useScrollRestoration";
@@ -11,12 +8,15 @@ import { getPosts } from "../api/posts";
 import HeadCommon from "../components/HeadCommon";
 import breakpointCols from "../utils/breakpointCols";
 import Footer from "../components/Footer";
+import { fetchProfile } from "../api/users";
+import useAuthState from "../components/useAuthState";
+import updatePostInList from "../utils/updatePostInList";
 
 let cache = {};
 
 const Home = props => {
   useScrollRestoration();
-  const { data: initialData, categories } = props;
+  const { data: initialData, categories, user } = props;
   const [data, setData] = useState(initialData);
   useEffect(() => {
     if (process.browser) {
@@ -26,6 +26,8 @@ const Home = props => {
   }, [data]);
   const [loading, setLoading] = useState(false);
   const { products } = data;
+  useAuthState(user);
+
   return (
     <>
       <HeadCommon />
@@ -38,7 +40,12 @@ const Home = props => {
             columnClassName="my-masonry-grid_column"
           >
             {products.map(el => {
-              return <Post key={el.id} el={el} />;
+              return (
+                <Post
+                  key={el.id}
+                  el={{ ...el, updatePost: updatePostInList(setData) }}
+                />
+              );
             })}
           </Masonry>
         </div>
@@ -71,19 +78,26 @@ const Home = props => {
   );
 };
 
-Home.getInitialProps = async ({ req }) => {
+Home.getInitialProps = async params => {
   let data;
   let dataCategories;
+  let user;
   if (cache["data"] && cache["categories"]) {
     data = cache["data"];
     dataCategories = cache["categories"];
   } else {
-    const resData = await getPosts();
+    const resData = await getPosts({ ctx: params });
     data = resData.data;
     const resCategories = await getCategories();
     dataCategories = resCategories.data.categories;
   }
-  return { data: data, categories: dataCategories };
+  try {
+    const result = await fetchProfile(params);
+    user = result.data.user;
+  } catch (e) {
+    console.log(e);
+  }
+  return { data: data, categories: dataCategories, user };
 };
 
 export default Home;

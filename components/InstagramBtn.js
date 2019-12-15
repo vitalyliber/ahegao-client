@@ -43,7 +43,7 @@ function InstagramBtn({ el }) {
       )}
       {!loading && (
         <FontAwesomeIcon
-          className="mr-2"
+          className="mr-2 cp"
           color="black"
           size="lg"
           icon={faInstagram}

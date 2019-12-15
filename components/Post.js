@@ -2,7 +2,10 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { Waypoint } from "react-waypoint";
 import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+dayjs.extend(relativeTime);
 import InstagramBtn from "./InstagramBtn";
+import LikeBtn from "./LikeBtn";
 
 function Post({ el }) {
   const generateSvg = (w, h) =>
@@ -44,7 +47,11 @@ function Post({ el }) {
           </a>
         </Link>
         <div className="d-flex justify-content-between ml-2 ml-sm-0 mr-2 mr-sm-0 mt-3">
-          <InstagramBtn el={el} />
+          <div>
+            <InstagramBtn el={el} />
+            <LikeBtn el={el} />
+          </div>
+
           <div>
             {el.categories.map(category => {
               return (

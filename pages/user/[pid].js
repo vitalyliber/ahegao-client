@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import dayjs from "dayjs";
 import Masonry from "react-masonry-css";
-import relativeTime from "dayjs/plugin/relativeTime";
-dayjs.extend(relativeTime);
 import Nav from "../../components/nav";
 import Post from "../../components/Post";
 import useScrollRestoration from "../../components/useScrollRestoration";
@@ -12,6 +9,9 @@ import { getPosts } from "../../api/posts";
 import HeadCommon from "../../components/HeadCommon";
 import breakpointCols from "../../utils/breakpointCols";
 import Footer from "../../components/Footer";
+import { fetchProfile } from "../../api/users";
+import useAuthState from "../../components/useAuthState";
+import updatePostInList from "../../utils/updatePostInList";
 
 let cache = {};
 
@@ -19,7 +19,7 @@ const User = props => {
   const router = useRouter();
   const { pid } = router.query;
   useScrollRestoration();
-  const { data: initialData, categories } = props;
+  const { data: initialData, categories, user } = props;
   const [data, setData] = useState(initialData);
   useEffect(() => {
     if (process.browser) {
@@ -30,6 +30,7 @@ const User = props => {
   }, [data]);
   const [loading, setLoading] = useState(false);
   const { products } = data;
+  useAuthState(user);
   return (
     <>
       <HeadCommon />
@@ -42,7 +43,12 @@ const User = props => {
             columnClassName="my-masonry-grid_column"
           >
             {products.map(el => {
-              return <Post key={el.id} el={el} />;
+              return (
+                <Post
+                  key={el.id}
+                  el={{ ...el, updatePost: updatePostInList(setData) }}
+                />
+              );
             })}
           </Masonry>
         </div>
@@ -81,7 +87,13 @@ const User = props => {
 User.getInitialProps = async ({ query: { pid } }) => {
   let data;
   let dataCategories;
-  if (cache["data"] && cache["categories"] && cache["pid"] && cache["pid"] === pid) {
+  let user;
+  if (
+    cache["data"] &&
+    cache["categories"] &&
+    cache["pid"] &&
+    cache["pid"] === pid
+  ) {
     data = cache["data"];
     dataCategories = cache["categories"];
   } else {
@@ -90,7 +102,13 @@ User.getInitialProps = async ({ query: { pid } }) => {
     const resCategories = await getCategories();
     dataCategories = resCategories.data.categories;
   }
-  return { data: data, categories: dataCategories };
+  try {
+    const result = await fetchProfile(params);
+    user = result.data.user;
+  } catch (e) {
+    console.log(e);
+  }
+  return { data: data, categories: dataCategories, user };
 };
 
 export default User;

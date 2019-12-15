@@ -8,19 +8,23 @@ import useScrollRestoration from "../../components/useScrollRestoration";
 import HeadCommon from "../../components/HeadCommon";
 import capitalize from "../../utils/capitalize";
 import Footer from "../../components/Footer";
+import { fetchProfile } from "../../api/users";
+import useAuthState from "../../components/useAuthState";
+import updatePost from "../../utils/updatePost";
 
 let cache = {};
 
-const Post = (props) => {
+const Post = props => {
   useScrollRestoration();
-  const { data: initialData, categories } = props;
-  const [data] = useState(initialData);
+  const { data: initialData, categories, user } = props;
+  const [data, setData] = useState(initialData);
   useEffect(() => {
     if (process.browser) {
       cache["data"] = data;
       cache["categories"] = categories;
     }
   }, [data]);
+  useAuthState(user);
 
   return (
     <>
@@ -32,7 +36,7 @@ const Post = (props) => {
       <div className="container">
         <div className="row">
           <div className="col d-flex justify-content-center">
-            <PostImage el={data} />
+            <PostImage el={{ ...data, updatePost: updatePost(setData) }} />
           </div>
         </div>
       </div>
@@ -41,10 +45,13 @@ const Post = (props) => {
   );
 };
 
-Post.getInitialProps = async ({ req, query }) => {
-  const { pid } = query;
+Post.getInitialProps = async params => {
+  const {
+    query: { pid }
+  } = params;
   let data;
   let dataCategories;
+  let user;
   if (
     cache["data"] &&
     cache["categories"] &&
@@ -58,7 +65,13 @@ Post.getInitialProps = async ({ req, query }) => {
     const resCategories = await getCategories();
     dataCategories = resCategories.data.categories;
   }
-  return { data: data, categories: dataCategories };
+  try {
+    const result = await fetchProfile(params);
+    user = result.data.user;
+  } catch (e) {
+    console.log(e);
+  }
+  return { data: data, categories: dataCategories, user };
 };
 
 export default Post;
