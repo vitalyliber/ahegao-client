@@ -8,7 +8,7 @@ export default store => {
   store.on('@init', () => initState);
 
   store.on('user/set_local_info', ({ user }, { authorized, admin }) => {
-    return { user: { ...user, authorized, admin, fetchingProfile: false } };
+    return { user: { ...user, authorized, admin } };
   });
 
   store.on('user/showAuthModal', ({ user }, _) => {

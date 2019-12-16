@@ -9,8 +9,11 @@ import "../styles.scss";
 import { store } from "../store";
 import AuthModal from "../components/AuthModal";
 import { fetchProfile } from "../api/users";
+import { getCategories } from "../api/categories";
 
 Router.events.on("routeChangeComplete", url => gtag.pageview(url));
+
+let cache = {};
 
 class MyApp extends App {
   static async getInitialProps({ Component, ctx }) {
@@ -21,25 +24,39 @@ class MyApp extends App {
       pageProps = await Component.getInitialProps(ctx);
     }
     let user;
+    let categories = [];
     try {
       const result = await fetchProfile(ctx);
       user = result.data.user;
     } catch (e) {
       console.log(e);
     }
-    return { pageProps: { ...pageProps, user } };
+    if (cache["categories"]) {
+      categories = cache["categories"];
+    }
+    if (!cache["categories"]) {
+      try {
+        const resCategories = await getCategories();
+        categories = resCategories.data.categories;
+        cache["categories"] = categories;
+      } catch (e) {
+        console.log(e);
+      }
+    }
+    return { pageProps: { ...pageProps, user, categories } };
   }
 
   render() {
     const {
       Component,
       pageProps,
-      pageProps: { user }
+      pageProps: { user, categories }
     } = this.props;
     const storeonStore = store();
     if (user) {
       const { admin } = user;
       storeonStore.dispatch("user/set_local_info", { authorized: true, admin });
+      storeonStore.dispatch("categories/set", { list: categories });
     }
     return (
       <StoreContext.Provider value={storeonStore}>

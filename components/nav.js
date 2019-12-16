@@ -2,13 +2,14 @@ import React, { useState, useEffect } from "react";
 import Router, { withRouter } from "next/router";
 import Link from "next/link";
 import useStoreon from "storeon/react";
-import Cookies from 'js-cookie';
+import Cookies from "js-cookie";
 
-const Nav = ({ categories, router }) => {
+const Nav = ({ router }) => {
   const {
     dispatch,
-    user: { authorized }
-  } = useStoreon("user");
+    user: { authorized },
+    categories: { list }
+  } = useStoreon("user", "categories");
   const [isOpen, setOpen] = useState(false);
 
   useEffect(() => {
@@ -59,7 +60,7 @@ const Nav = ({ categories, router }) => {
           id="navbarSupportedContent"
         >
           <ul className="navbar-nav mr-auto">
-            {categories.map(el => {
+            {list.map(el => {
               const link = `/category/${el.label}`;
               return (
                 <li key={el.id} className={`nav-item ${linkActiveClass(link)}`}>

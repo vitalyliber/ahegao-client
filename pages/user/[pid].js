@@ -4,7 +4,6 @@ import Masonry from "react-masonry-css";
 import Nav from "../../components/nav";
 import Post from "../../components/Post";
 import useScrollRestoration from "../../components/useScrollRestoration";
-import { getCategories } from "../../api/categories";
 import { getPosts } from "../../api/posts";
 import HeadCommon from "../../components/HeadCommon";
 import breakpointCols from "../../utils/breakpointCols";
@@ -17,12 +16,11 @@ const User = props => {
   const router = useRouter();
   const { pid } = router.query;
   useScrollRestoration();
-  const { data: initialData, categories } = props;
+  const { data: initialData } = props;
   const [data, setData] = useState(initialData);
   useEffect(() => {
     if (process.browser) {
       cache["data"] = data;
-      cache["categories"] = categories;
       cache["pid"] = pid;
     }
   }, [data]);
@@ -31,7 +29,7 @@ const User = props => {
   return (
     <>
       <HeadCommon />
-      <Nav categories={categories} />
+      <Nav />
       <div className="container">
         <div className="row">
           {products.length === 1 && (
@@ -93,22 +91,17 @@ User.getInitialProps = async params => {
     query: { pid }
   } = params;
   let data;
-  let dataCategories;
   if (
     cache["data"] &&
-    cache["categories"] &&
     cache["pid"] &&
     cache["pid"] === pid
   ) {
     data = cache["data"];
-    dataCategories = cache["categories"];
   } else {
     const resData = await getPosts({ user_id: pid, ctx: params });
     data = resData.data;
-    const resCategories = await getCategories();
-    dataCategories = resCategories.data.categories;
   }
-  return { data: data, categories: dataCategories };
+  return { data: data };
 };
 
 export default User;

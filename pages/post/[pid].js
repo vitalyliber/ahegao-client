@@ -3,7 +3,6 @@ import Nav from "../../components/nav";
 import PostImage from "../../components/Post";
 import React, { useEffect, useState } from "react";
 import { getPost } from "../../api/posts";
-import { getCategories } from "../../api/categories";
 import useScrollRestoration from "../../components/useScrollRestoration";
 import HeadCommon from "../../components/HeadCommon";
 import capitalize from "../../utils/capitalize";
@@ -14,12 +13,11 @@ let cache = {};
 
 const Post = props => {
   useScrollRestoration();
-  const { data: initialData, categories } = props;
+  const { data: initialData } = props;
   const [data, setData] = useState(initialData);
   useEffect(() => {
     if (process.browser) {
       cache["data"] = data;
-      cache["categories"] = categories;
     }
   }, [data]);
   return (
@@ -28,7 +26,7 @@ const Post = props => {
       <Head>
         <title>{capitalize(data.username)}'s ahegao</title>
       </Head>
-      <Nav categories={categories} />
+      <Nav />
       <div className="container">
         <div className="row">
           <div className="col d-flex justify-content-center">
@@ -46,21 +44,16 @@ Post.getInitialProps = async params => {
     query: { pid }
   } = params;
   let data;
-  let dataCategories;
   if (
     cache["data"] &&
-    cache["categories"] &&
     cache["data"].id.toString() === pid.toString()
   ) {
     data = cache["data"];
-    dataCategories = cache["categories"];
   } else {
     const resData = await getPost({id: pid, ctx: params});
     data = resData.data.product;
-    const resCategories = await getCategories();
-    dataCategories = resCategories.data.categories;
   }
-  return { data: data, categories: dataCategories };
+  return { data: data };
 };
 
 export default Post;

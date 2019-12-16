@@ -3,7 +3,6 @@ import Masonry from "react-masonry-css";
 import Nav from "../components/nav";
 import Post from "../components/Post";
 import useScrollRestoration from "../components/useScrollRestoration";
-import { getCategories } from "../api/categories";
 import { getPosts } from "../api/posts";
 import HeadCommon from "../components/HeadCommon";
 import breakpointCols from "../utils/breakpointCols";
@@ -14,12 +13,11 @@ let cache = {};
 
 const Home = props => {
   useScrollRestoration();
-  const { data: initialData, categories } = props;
+  const { data: initialData } = props;
   const [data, setData] = useState(initialData);
   useEffect(() => {
     if (process.browser) {
       cache["data"] = data;
-      cache["categories"] = categories;
     }
   }, [data]);
   const [loading, setLoading] = useState(false);
@@ -28,7 +26,7 @@ const Home = props => {
   return (
     <>
       <HeadCommon />
-      <Nav categories={categories} />
+      <Nav />
       <div className="container">
         <div className="row">
           <Masonry
@@ -77,17 +75,13 @@ const Home = props => {
 
 Home.getInitialProps = async params => {
   let data;
-  let dataCategories;
-  if (cache["data"] && cache["categories"]) {
+  if (cache["data"]) {
     data = cache["data"];
-    dataCategories = cache["categories"];
   } else {
     const resData = await getPosts({ ctx: params });
     data = resData.data;
-    const resCategories = await getCategories();
-    dataCategories = resCategories.data.categories;
   }
-  return { data: data, categories: dataCategories };
+  return { data: data };
 };
 
 export default Home;
