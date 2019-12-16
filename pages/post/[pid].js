@@ -60,7 +60,8 @@ Post.getInitialProps = async params => {
     data = cache["data"];
     dataCategories = cache["categories"];
   } else {
-    const resData = await getPost(pid);
+    const resData = await getPost({id: pid, ctx: params});
+    console.log('ff', resData)
     data = resData.data.product;
     const resCategories = await getCategories();
     dataCategories = resCategories.data.categories;

@@ -37,20 +37,27 @@ const User = props => {
       <Nav categories={categories} />
       <div className="container">
         <div className="row">
-          <Masonry
-            breakpointCols={breakpointCols}
-            className="my-masonry-grid"
-            columnClassName="my-masonry-grid_column"
-          >
-            {products.map(el => {
-              return (
-                <Post
-                  key={el.id}
-                  el={{ ...el, updatePost: updatePostInList(setData) }}
-                />
-              );
-            })}
-          </Masonry>
+          {products.length === 1 && (
+            <div className="col d-flex justify-content-center">
+              <Post el={{ ...products[0], updatePost: updatePostInList(setData) }} />
+            </div>
+          )}
+          {products.length > 1 && (
+            <Masonry
+              breakpointCols={breakpointCols}
+              className="my-masonry-grid"
+              columnClassName="my-masonry-grid_column"
+            >
+              {products.map(el => {
+                return (
+                  <Post
+                    key={el.id}
+                    el={{ ...el, updatePost: updatePostInList(setData) }}
+                  />
+                );
+              })}
+            </Masonry>
+          )}
         </div>
         {!data.last_page && (
           <button
@@ -84,7 +91,10 @@ const User = props => {
   );
 };
 
-User.getInitialProps = async ({ query: { pid } }) => {
+User.getInitialProps = async params => {
+  const {
+    query: { pid }
+  } = params;
   let data;
   let dataCategories;
   let user;
@@ -97,7 +107,7 @@ User.getInitialProps = async ({ query: { pid } }) => {
     data = cache["data"];
     dataCategories = cache["categories"];
   } else {
-    const resData = await getPosts({ user_id: pid });
+    const resData = await getPosts({ user_id: pid, ctx: params });
     data = resData.data;
     const resCategories = await getCategories();
     dataCategories = resCategories.data.categories;

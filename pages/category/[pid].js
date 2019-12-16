@@ -89,7 +89,10 @@ const Category = props => {
   );
 };
 
-Category.getInitialProps = async ({ query: { pid } }) => {
+Category.getInitialProps = async params => {
+  const {
+    query: { pid }
+  } = params;
   let data;
   let dataCategories;
   let user;
@@ -102,7 +105,7 @@ Category.getInitialProps = async ({ query: { pid } }) => {
     data = cache["data"];
     dataCategories = cache["categories"];
   } else {
-    const resData = await getPosts({ category_title: pid });
+    const resData = await getPosts({ category_title: pid, ctx: params });
     data = resData.data;
     const resCategories = await getCategories();
     dataCategories = resCategories.data.categories;

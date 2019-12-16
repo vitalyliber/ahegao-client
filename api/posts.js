@@ -28,13 +28,14 @@ export const getPosts = ({
   });
 };
 
-export const getPost = id => {
+export const getPost = ({ id, ctx = null } = {}) => {
   return Axios({
     method: "get",
     url: `https://ahegao.casply.com/api/products/${id}`,
     data: null,
     headers: {
-      "Content-type": "application/json"
+      "Content-type": "application/json",
+      Authorization: `Bearer ${getIsomorphicToken(ctx)}`
     }
   });
 };
