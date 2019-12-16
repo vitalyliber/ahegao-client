@@ -9,8 +9,6 @@ import { getPosts } from "../../api/posts";
 import HeadCommon from "../../components/HeadCommon";
 import breakpointCols from "../../utils/breakpointCols";
 import Footer from "../../components/Footer";
-import { fetchProfile } from "../../api/users";
-import useAuthState from "../../components/useAuthState";
 import updatePostInList from "../../utils/updatePostInList";
 
 let cache = {};
@@ -19,7 +17,7 @@ const Category = props => {
   const router = useRouter();
   const { pid } = router.query;
   useScrollRestoration();
-  const { data: initialData, categories, user } = props;
+  const { data: initialData, categories } = props;
   const [data, setData] = useState(initialData);
   useEffect(() => {
     if (process.browser) {
@@ -35,7 +33,6 @@ const Category = props => {
   }, [initialData]);
   const [loading, setLoading] = useState(false);
   const { products } = data;
-  useAuthState(user);
   return (
     <>
       <HeadCommon />
@@ -95,7 +92,6 @@ Category.getInitialProps = async params => {
   } = params;
   let data;
   let dataCategories;
-  let user;
   if (
     cache["data"] &&
     cache["categories"] &&
@@ -110,13 +106,7 @@ Category.getInitialProps = async params => {
     const resCategories = await getCategories();
     dataCategories = resCategories.data.categories;
   }
-  try {
-    const result = await fetchProfile(params);
-    user = result.data.user;
-  } catch (e) {
-    console.log(e);
-  }
-  return { data: data, categories: dataCategories, user };
+  return { data: data, categories: dataCategories };
 };
 
 export default Category;

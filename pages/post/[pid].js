@@ -8,15 +8,13 @@ import useScrollRestoration from "../../components/useScrollRestoration";
 import HeadCommon from "../../components/HeadCommon";
 import capitalize from "../../utils/capitalize";
 import Footer from "../../components/Footer";
-import { fetchProfile } from "../../api/users";
-import useAuthState from "../../components/useAuthState";
 import updatePost from "../../utils/updatePost";
 
 let cache = {};
 
 const Post = props => {
   useScrollRestoration();
-  const { data: initialData, categories, user } = props;
+  const { data: initialData, categories } = props;
   const [data, setData] = useState(initialData);
   useEffect(() => {
     if (process.browser) {
@@ -24,8 +22,6 @@ const Post = props => {
       cache["categories"] = categories;
     }
   }, [data]);
-  useAuthState(user);
-
   return (
     <>
       <HeadCommon />
@@ -51,7 +47,6 @@ Post.getInitialProps = async params => {
   } = params;
   let data;
   let dataCategories;
-  let user;
   if (
     cache["data"] &&
     cache["categories"] &&
@@ -61,18 +56,11 @@ Post.getInitialProps = async params => {
     dataCategories = cache["categories"];
   } else {
     const resData = await getPost({id: pid, ctx: params});
-    console.log('ff', resData)
     data = resData.data.product;
     const resCategories = await getCategories();
     dataCategories = resCategories.data.categories;
   }
-  try {
-    const result = await fetchProfile(params);
-    user = result.data.user;
-  } catch (e) {
-    console.log(e);
-  }
-  return { data: data, categories: dataCategories, user };
+  return { data: data, categories: dataCategories };
 };
 
 export default Post;
