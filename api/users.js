@@ -1,6 +1,4 @@
 import Axios from "axios";
-import Cookies from 'js-cookie';
-import nextCookies from 'next-cookies'
 import getIsomorphicToken from "../utils/getIsomorphicToken";
 
 export const getInstagramName = instagram_user_id => {
