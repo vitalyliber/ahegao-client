@@ -23,7 +23,7 @@ function Post({ el }) {
     >
       <div>
         <div className="d-flex align-items-center mb-2 justify-content-between">
-          <Link href="/user/[pid]" as={`/user/${el.user_id}`}>
+          <Link href="/users/[pid]" as={`/users/${el.user_id}`}>
             <a className="text-dark">
               <div className="d-flex align-items-center">
                 <img
@@ -41,7 +41,7 @@ function Post({ el }) {
             {dayjs(el.updated_at).fromNow()}
           </div>
         </div>
-        <Link href="/post/[pid]" as={`/post/${el.id}`}>
+        <Link href="/posts/[pid]" as={`/posts/${el.id}`}>
           <a>
             <img className="img-fluid" src={image} alt="Ahegao face" />
           </a>
@@ -57,8 +57,8 @@ function Post({ el }) {
               return (
                 <Link
                   key={category.label}
-                  href="/category/[pid]"
-                  as={`/category/${category.label}`}
+                  href="/categories/[pid]"
+                  as={`/categories/${category.label}`}
                 >
                   <a className="badge badge-dark ml-1">{category.label}</a>
                 </Link>

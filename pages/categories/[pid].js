@@ -12,7 +12,7 @@ import updatePostInList from "../../utils/updatePostInList";
 
 let cache = {};
 
-const Category = props => {
+const Categories = props => {
   const router = useRouter();
   const { pid } = router.query;
   useScrollRestoration();
@@ -84,7 +84,7 @@ const Category = props => {
   );
 };
 
-Category.getInitialProps = async params => {
+Categories.getInitialProps = async params => {
   const {
     query: { pid }
   } = params;
@@ -102,4 +102,4 @@ Category.getInitialProps = async params => {
   return { data: data };
 };
 
-export default Category;
+export default Categories;

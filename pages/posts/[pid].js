@@ -11,7 +11,7 @@ import updatePost from "../../utils/updatePost";
 
 let cache = {};
 
-const Post = props => {
+const Posts = props => {
   useScrollRestoration();
   const { data: initialData } = props;
   const [data, setData] = useState(initialData);
@@ -39,7 +39,7 @@ const Post = props => {
   );
 };
 
-Post.getInitialProps = async params => {
+Posts.getInitialProps = async params => {
   const {
     query: { pid }
   } = params;
@@ -56,4 +56,4 @@ Post.getInitialProps = async params => {
   return { data: data };
 };
 
-export default Post;
+export default Posts;

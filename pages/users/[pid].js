@@ -12,7 +12,7 @@ import updatePostInList from "../../utils/updatePostInList";
 
 let cache = {};
 
-const User = props => {
+const Users = props => {
   const router = useRouter();
   const { pid } = router.query;
   useScrollRestoration();
@@ -86,7 +86,7 @@ const User = props => {
   );
 };
 
-User.getInitialProps = async params => {
+Users.getInitialProps = async params => {
   const {
     query: { pid }
   } = params;
@@ -104,4 +104,4 @@ User.getInitialProps = async params => {
   return { data: data };
 };
 
-export default User;
+export default Users;

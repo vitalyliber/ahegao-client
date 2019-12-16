@@ -61,10 +61,10 @@ const Nav = ({ router }) => {
         >
           <ul className="navbar-nav mr-auto">
             {list.map(el => {
-              const link = `/category/${el.label}`;
+              const link = `/categories/${el.label}`;
               return (
                 <li key={el.id} className={`nav-item ${linkActiveClass(link)}`}>
-                  <Link href="/category/[pid]" as={link}>
+                  <Link href="/categories/[pid]" as={link}>
                     <a className="nav-link" href="#">
                       {el.label}
                     </a>
