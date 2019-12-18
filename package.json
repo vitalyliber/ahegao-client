@@ -8,6 +8,9 @@
     "start": "next start",
     "deploy": "git push dokku@casply.com:ahegao-client master"
   },
+  "engines": {
+    "node": "10.18.0"
+  },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.26",
     "@fortawesome/free-brands-svg-icons": "^5.12.0",
@@ -32,6 +35,7 @@
     "yup": "^0.27.0"
   },
   "devDependencies": {
+    "@types/node": "^12.12.21",
     "@types/react": "^16.9.16",
     "prettier": "1.19.1",
     "typescript": "^3.7.3"
