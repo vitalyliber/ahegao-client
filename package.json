@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "deploy": "git push dokku@casply.com:ahegao-client master"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.26",
@@ -31,6 +32,8 @@
     "yup": "^0.27.0"
   },
   "devDependencies": {
-    "prettier": "1.19.1"
+    "@types/react": "^16.9.16",
+    "prettier": "1.19.1",
+    "typescript": "^3.7.3"
   }
 }
