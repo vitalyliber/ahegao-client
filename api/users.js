@@ -1,5 +1,6 @@
 import Axios from "axios";
 import getIsomorphicToken from "../utils/getIsomorphicToken";
+import hostname from "./hostname";
 
 export const getInstagramName = instagram_user_id => {
   return Axios({
@@ -35,7 +36,7 @@ export const getToken = (email, auth_code) => {
 export const fetchProfile = (ctx) => {
   return Axios({
     method: 'get',
-    url: 'https://ahegao.casply.com/api/users',
+    url: `${hostname}/api/users`,
     data: null,
     headers: {
       'Content-type': 'application/json',

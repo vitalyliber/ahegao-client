@@ -1,6 +1,7 @@
 import Axios from "axios";
 import Cookies from "js-cookie";
 import getIsomorphicToken from "../utils/getIsomorphicToken";
+import hostname from "./hostname";
 
 export const getPosts = ({
   page = 1,
@@ -12,7 +13,7 @@ export const getPosts = ({
 } = {}) => {
   return Axios({
     method: "get",
-    url: `https://ahegao.casply.com/api/products`,
+    url: `${hostname}/api/products`,
     params: {
       only_visible,
       page,
@@ -31,7 +32,7 @@ export const getPosts = ({
 export const getPost = ({ id, ctx = null } = {}) => {
   return Axios({
     method: "get",
-    url: `https://ahegao.casply.com/api/products/${id}`,
+    url: `${hostname}/api/products/${id}`,
     data: null,
     headers: {
       "Content-type": "application/json",
@@ -44,7 +45,7 @@ export const deletePostLike = id => {
   const token = Cookies.get("token");
   return Axios({
     method: "delete",
-    url: `https://ahegao.casply.com/api/likes/${id}`,
+    url: `${hostname}/api/likes/${id}`,
     headers: {
       "Content-type": "application/json",
       Authorization: `Bearer ${token}`
@@ -56,7 +57,7 @@ export const likePost = product_id => {
   const token = Cookies.get("token");
   return Axios({
     method: "post",
-    url: "https://ahegao.casply.com/api/likes",
+    url: `${hostname}/api/likes`,
     data: { product_id },
     headers: {
       "Content-type": "application/json",
