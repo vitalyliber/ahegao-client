@@ -15,7 +15,7 @@ function HeadCommon() {
         content="The best Ahegao face compilation"
       />
       <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:image" content={`${hostname}/twitter-card.jpg`} />
+      <meta name="twitter:image" content="https://ahegao.casply.com/twitter-card.jpg" />
     </Head>
   );
 }
