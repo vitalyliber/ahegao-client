@@ -16,7 +16,7 @@ function Modal({
     <Fragment>
       <div
         className={`modal overflow-auto fade show ${
-          visible ? "d-block" : null
+          visible ? "d-block" : ""
         }`}
         role="dialog"
       >

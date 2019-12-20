@@ -62,7 +62,6 @@ class MyApp extends App {
       <StoreContext.Provider value={storeonStore}>
         <Component {...pageProps} />
         <ScrollUpButton />
-        <AuthModal />
       </StoreContext.Provider>
     );
   }

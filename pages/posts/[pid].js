@@ -8,6 +8,8 @@ import HeadCommon from "../../components/HeadCommon";
 import capitalize from "../../utils/capitalize";
 import Footer from "../../components/Footer";
 import updatePost from "../../utils/updatePost";
+import AuthModal from "../../components/AuthModal";
+import StoreContext from "storeon/react/context";
 
 let cache = {};
 
@@ -38,6 +40,7 @@ const Posts = props => {
         </div>
       </div>
       <Footer />
+      <AuthModal />
     </>
   );
 };
