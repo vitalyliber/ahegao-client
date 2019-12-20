@@ -13,6 +13,8 @@ function HeadCommon() {
         name="twitter:description"
         content="The best Ahegao face compilation"
       />
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:image" content="/twitter-card.jpg" />
     </Head>
   );
 }

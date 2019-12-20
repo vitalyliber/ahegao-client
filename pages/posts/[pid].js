@@ -26,7 +26,6 @@ const Posts = props => {
       <HeadCommon />
       <Head>
         <title>{title}</title>
-        <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={title} />
         <meta name="twitter:image" content={data.image} />
       </Head>
