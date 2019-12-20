@@ -56,8 +56,8 @@ class MyApp extends App {
     if (user) {
       const { admin } = user;
       storeonStore.dispatch("user/set_local_info", { authorized: true, admin });
-      storeonStore.dispatch("categories/set", { list: categories });
     }
+    storeonStore.dispatch("categories/set", { list: categories });
     return (
       <StoreContext.Provider value={storeonStore}>
         <Component {...pageProps} />
