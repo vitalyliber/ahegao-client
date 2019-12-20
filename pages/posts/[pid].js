@@ -20,11 +20,15 @@ const Posts = props => {
       cache["data"] = data;
     }
   }, [data]);
+  const title = `${capitalize(data.username)}'s ahegao`;
   return (
     <>
       <HeadCommon />
       <Head>
-        <title>{capitalize(data.username)}'s ahegao</title>
+        <title>{title}</title>
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={title} />
+        <meta name="twitter:image" content={data.image} />
       </Head>
       <Nav />
       <div className="container">
@@ -44,13 +48,10 @@ Posts.getInitialProps = async params => {
     query: { pid }
   } = params;
   let data;
-  if (
-    cache["data"] &&
-    cache["data"].id.toString() === pid.toString()
-  ) {
+  if (cache["data"] && cache["data"].id.toString() === pid.toString()) {
     data = cache["data"];
   } else {
-    const resData = await getPost({id: pid, ctx: params});
+    const resData = await getPost({ id: pid, ctx: params });
     data = resData.data.product;
   }
   return { data: data };
