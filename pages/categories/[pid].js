@@ -30,11 +30,12 @@ const Categories = props => {
     setData(initialData);
   }, [initialData]);
   const [loading, setLoading] = useState(false);
-  const { products } = data;
+  const { products, total_count } = data;
   return (
     <>
       <HeadCommon />
       <Nav />
+      <p className="text-center text-black-50 mb-4">{total_count} {pid} ahegao pics</p>
       <div className="container">
         <div className="row">
           <Masonry

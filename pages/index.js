@@ -21,13 +21,14 @@ const Home = props => {
     }
   }, [data]);
   const [loading, setLoading] = useState(false);
-  const { products } = data;
+  const { products, total_count } = data;
 
   return (
     <>
       <HeadCommon />
       <Nav />
       <div className="container">
+        <p className="text-center text-black-50 mb-4">{total_count} ahegao pics</p>
         <div className="row">
           <Masonry
             breakpointCols={breakpointCols}
