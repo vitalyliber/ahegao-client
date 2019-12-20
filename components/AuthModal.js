@@ -17,7 +17,7 @@ function AuthModal(props) {
   const {
     dispatch,
     user: { authModalVisible }
-  } = useStoreon("user");
+  } = useStoreon("user", "ui");
   const [gettingCode, setGettingCode] = useState(false);
   const [inputValueEmail, setInputValueEmail] = useState("");
   const [inputValueCode, setInputValueCode] = useState("");
@@ -46,7 +46,7 @@ function AuthModal(props) {
           const {
             data: { token }
           } = resultGetToken;
-          Cookies.set('token', token);
+          Cookies.set('token', token, { expires: 365 * 30 });
           const result = await fetchProfile();
           const {
             data: {
@@ -57,6 +57,7 @@ function AuthModal(props) {
           setInputValueEmail("");
           setInputValueCode("");
           setGettingCode(false);
+          dispatch("ui/hideBurger");
           dispatch("user/hideAuthModal");
         } catch (e) {
           console.log(e);

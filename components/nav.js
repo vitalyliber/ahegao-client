@@ -8,14 +8,14 @@ const Nav = ({ router }) => {
   const {
     dispatch,
     user: { authorized },
-    categories: { list }
-  } = useStoreon("user", "categories");
-  const [isOpen, setOpen] = useState(false);
+    categories: { list },
+    ui: { burgerVisible }
+  } = useStoreon("user", "categories", "ui");
 
   useEffect(() => {
     const handleRouteChange = url => {
       console.log("App is changing to: ", url);
-      setOpen(false);
+      dispatch("ui/hideBurger");
     };
 
     Router.events.on("routeChangeStart", handleRouteChange);
@@ -49,14 +49,14 @@ const Nav = ({ router }) => {
           aria-controls="navbarSupportedContent"
           aria-expanded="false"
           aria-label="Toggle navigation"
-          onClick={() => setOpen(!isOpen)}
+          onClick={() => dispatch("ui/toggleBurger")}
         >
           <span className="navbar-toggler-icon"></span>
         </button>
 
         <div
           className="collapse navbar-collapse"
-          style={{ display: isOpen ? "block" : "none" }}
+          style={{ display: burgerVisible ? "block" : "none" }}
           id="navbarSupportedContent"
         >
           <ul className="navbar-nav mr-auto">
@@ -84,6 +84,7 @@ const Nav = ({ router }) => {
                       authorized: false,
                       admin: false
                     });
+                    dispatch("ui/hideBurger");
                   } else {
                     dispatch("user/showAuthModal");
                   }
