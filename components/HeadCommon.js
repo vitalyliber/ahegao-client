@@ -1,5 +1,6 @@
 import Head from "next/head";
 import React from "react";
+import hostname from "../api/hostname";
 
 function HeadCommon() {
   return (
@@ -14,7 +15,7 @@ function HeadCommon() {
         content="The best Ahegao face compilation"
       />
       <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:image" content="/twitter-card.jpg" />
+      <meta name="twitter:image" content={`${hostname}/twitter-card.jpg`} />
     </Head>
   );
 }
