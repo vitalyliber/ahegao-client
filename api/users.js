@@ -5,7 +5,7 @@ import hostname from "./hostname";
 export const getInstagramName = instagram_user_id => {
   return Axios({
     method: "get",
-    url: `https://ahegao.casply.com/api/users/${instagram_user_id}/instagram_username/`,
+    url: `${hostname}/api/users/${instagram_user_id}/instagram_username/`,
     data: null
   });
 };
@@ -13,7 +13,7 @@ export const getInstagramName = instagram_user_id => {
 export const getAuthToken = email => {
   return Axios({
     method: 'post',
-    url: 'https://ahegao.casply.com/api/users',
+    url: `${hostname}/api/users`,
     data: { user: { email } },
     headers: {
       'Content-type': 'application/json',
@@ -25,7 +25,7 @@ export const getToken = (email, auth_code) => {
   console.log(email, auth_code);
   return Axios({
     method: 'post',
-    url: `https://ahegao.casply.com/api/tokens`,
+    url: `${hostname}/api/tokens`,
     data: { user: { email, auth_code } },
     headers: {
       'Content-type': 'application/json',
