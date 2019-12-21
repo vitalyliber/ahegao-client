@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import Router, { withRouter } from "next/router";
 import Link from "next/link";
 import useStoreon from "storeon/react";
 import Cookies from "js-cookie";
+import Context from "../utils/Context";
 
 const Nav = ({ router }) => {
+  const { clearUserCache } = useContext(Context);
   const {
     dispatch,
     user: { authorized },
@@ -85,6 +87,7 @@ const Nav = ({ router }) => {
                       admin: false
                     });
                     dispatch("ui/hideBurger");
+                    clearUserCache();
                   } else {
                     dispatch("user/showAuthModal");
                   }

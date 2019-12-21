@@ -9,6 +9,7 @@ import "../styles.scss";
 import { store } from "../store";
 import { fetchProfile } from "../api/users";
 import { getCategories } from "../api/categories";
+import Context from "../utils/Context";
 
 Router.events.on("routeChangeComplete", url => gtag.pageview(url));
 
@@ -24,12 +25,20 @@ class MyApp extends App {
     }
     let user;
     let categories = [];
-    try {
-      const result = await fetchProfile(ctx);
-      user = result.data.user;
-    } catch (e) {
-      console.log(e);
+    if (cache["user_request"]) {
+      user = cache["user"];
+    } else {
+      try {
+        const result = await fetchProfile(ctx);
+        user = result.data.user;
+        cache["user"] = user;
+        cache["user_request"] = "already_tried";
+      } catch (e) {
+        cache["user_request"] = "already_tried";
+        console.log(e);
+      }
     }
+
     if (cache["categories"]) {
       categories = cache["categories"];
     }
@@ -45,6 +54,16 @@ class MyApp extends App {
     return { pageProps: { ...pageProps, user, categories } };
   }
 
+  clearUserCache = () => {
+    cache["user_request"] = null;
+    cache["user"] = null;
+  };
+
+  fillUserCache = user => {
+    cache["user_request"] = "already_tried";
+    cache["user"] = user;
+  };
+
   render() {
     const {
       Component,
@@ -59,8 +78,15 @@ class MyApp extends App {
     storeonStore.dispatch("categories/set", { list: categories });
     return (
       <StoreContext.Provider value={storeonStore}>
-        <Component {...pageProps} />
-        <ScrollUpButton />
+        <Context.Provider
+          value={{
+            fillUserCache: this.fillUserCache,
+            clearUserCache: this.clearUserCache
+          }}
+        >
+          <Component {...pageProps} />
+          <ScrollUpButton />
+        </Context.Provider>
       </StoreContext.Provider>
     );
   }
