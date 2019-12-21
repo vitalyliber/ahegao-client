@@ -1,6 +1,5 @@
 import Head from "next/head";
 import React from "react";
-import hostname from "../api/hostname";
 
 function HeadCommon() {
   return (

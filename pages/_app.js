@@ -7,7 +7,6 @@ import "@fortawesome/fontawesome-svg-core/styles.css";
 import * as gtag from "../utils/gtag";
 import "../styles.scss";
 import { store } from "../store";
-import AuthModal from "../components/AuthModal";
 import { fetchProfile } from "../api/users";
 import { getCategories } from "../api/categories";
 
