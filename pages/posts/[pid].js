@@ -9,7 +9,6 @@ import capitalize from "../../utils/capitalize";
 import Footer from "../../components/Footer";
 import updatePost from "../../utils/updatePost";
 import AuthModal from "../../components/AuthModal";
-import StoreContext from "storeon/react/context";
 
 let cache = {};
 
@@ -22,7 +21,7 @@ const Posts = props => {
       cache["data"] = data;
     }
   }, [data]);
-  const title = `${capitalize(data.username)}'s ahegao`;
+  const title = `Ahegao from ${capitalize(data.username)}`;
   return (
     <>
       <HeadCommon />
