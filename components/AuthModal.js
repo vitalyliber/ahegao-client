@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect, useContext } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import useStoreon from "storeon/react";
 import Cookies from "js-cookie";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -6,7 +6,6 @@ import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import * as Yup from "yup";
 import Modal from "./Modal";
 import { fetchProfile, getAuthToken, getToken } from "../api/users";
-import Context from "../utils/Context";
 
 const schema = Yup.object().shape({
   email: Yup.string()
@@ -14,8 +13,7 @@ const schema = Yup.object().shape({
     .required()
 });
 
-function AuthModal(props) {
-  const { fillUserCache } = useContext(Context);
+function AuthModal() {
   const {
     dispatch,
     user: { authModalVisible }
@@ -52,11 +50,9 @@ function AuthModal(props) {
           const result = await fetchProfile();
           const {
             data: {
-              user,
               user: { admin }
             }
           } = result;
-          fillUserCache(user);
           dispatch("user/set_local_info", { authorized: true, admin });
           setInputValueEmail("");
           setInputValueCode("");
