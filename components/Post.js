@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import Link from "next/link";
 import { Waypoint } from "react-waypoint";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.extend(relativeTime);
 import InstagramBtn from "./InstagramBtn";
 import LikeBtn from "./LikeBtn";
+import SmartLink from "./SmartLink";
 
 function Post({ el }) {
   const generateSvg = (w, h) =>
@@ -23,7 +23,7 @@ function Post({ el }) {
     >
       <div>
         <div className="d-flex align-items-center mb-2 justify-content-between">
-          <Link href="/users/[pid]" as={`/users/${el.user_id}`}>
+          <SmartLink href="/users/[pid]" as={`/users/${el.user_id}`}>
             <a className="text-dark">
               <div className="d-flex align-items-center">
                 <img
@@ -36,16 +36,16 @@ function Post({ el }) {
                 <p className="mb-0 ml-2 font-weight-bold">{el.username}</p>
               </div>
             </a>
-          </Link>
+          </SmartLink>
           <div className="text-black-50 d-inline mr-2 mr-sm-0">
             {dayjs(el.updated_at).fromNow()}
           </div>
         </div>
-        <Link href="/posts/[pid]" as={`/posts/${el.id}`}>
+        <SmartLink href="/posts/[pid]" as={`/posts/${el.id}`}>
           <a>
             <img className="img-fluid" src={image} alt="Ahegao face" />
           </a>
-        </Link>
+        </SmartLink>
         <div className="d-flex justify-content-between ml-2 ml-sm-0 mr-2 mr-sm-0 mt-3">
           <div>
             <InstagramBtn el={el} />
@@ -55,13 +55,13 @@ function Post({ el }) {
           <div>
             {el.categories.map(category => {
               return (
-                <Link
+                <SmartLink
                   key={category.label}
                   href="/categories/[pid]"
                   as={`/categories/${category.label}`}
                 >
-                  <a className="badge badge-dark ml-1">{category.label}</a>
-                </Link>
+                  <a className="badge badge-dark ml-1" href="#">{category.label}</a>
+                </SmartLink>
               );
             })}
           </div>

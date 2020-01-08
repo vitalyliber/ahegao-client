@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import Router, { withRouter } from "next/router";
-import Link from "next/link";
 import useStoreon from "storeon/react";
 import Cookies from "js-cookie";
+import SmartLink from "./SmartLink";
 
 const Nav = ({ router }) => {
   const {
@@ -11,6 +11,8 @@ const Nav = ({ router }) => {
     categories: { list },
     ui: { burgerVisible }
   } = useStoreon("user", "categories", "ui");
+  console.log('8888888', burgerVisible)
+
 
   useEffect(() => {
     const handleRouteChange = url => {
@@ -31,16 +33,16 @@ const Nav = ({ router }) => {
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light mb-4">
       <div className="container">
-        <Link href="/">
+        <SmartLink href="/">
           <a className="navbar-brand rounded" href="#">
             <img src="/favicon.png" width="30" height="30" alt="" />
           </a>
-        </Link>
-        <Link href="/">
+        </SmartLink>
+        <SmartLink href="/">
           <a className="navbar-brand" href="#">
             Ahegao Faces
           </a>
-        </Link>
+        </SmartLink>
         <button
           className="navbar-toggler"
           type="button"
@@ -64,11 +66,11 @@ const Nav = ({ router }) => {
               const link = `/categories/${el.label}`;
               return (
                 <li key={el.id} className={`nav-item ${linkActiveClass(link)}`}>
-                  <Link href="/categories/[pid]" as={link}>
+                  <SmartLink href="/categories/[pid]" as={link}>
                     <a className="nav-link" href="#">
                       {el.label}
                     </a>
-                  </Link>
+                  </SmartLink>
                 </li>
               );
             })}
