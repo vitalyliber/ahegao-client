@@ -1,7 +1,7 @@
 import React from "react";
 import dayjs from "dayjs";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGithub } from '@fortawesome/free-brands-svg-icons';
+import { faGithub, faTwitter, faTelegram } from '@fortawesome/free-brands-svg-icons';
 
 function Footer() {
   return (
@@ -14,8 +14,21 @@ function Footer() {
             target="_blank"
             href="https://github.com/vitalyliber/ahegao-client"
           >
-            <FontAwesomeIcon className="mr-2" color="black" size="lg" icon={faGithub} />
-            GitHub
+            <FontAwesomeIcon color="black" size="lg" icon={faGithub} />
+          </a>
+          <a
+            className="text-dark ml-3"
+            target="_blank"
+            href="https://twitter.com/ahegaofacess"
+          >
+            <FontAwesomeIcon color="black" size="lg" icon={faTwitter} />
+          </a>
+          <a
+            className="text-dark ml-3"
+            target="_blank"
+            href="https://t.me/ahegaolikes"
+          >
+            <FontAwesomeIcon color="black" size="lg" icon={faTelegram} />
           </a>
         </p>
       </div>
