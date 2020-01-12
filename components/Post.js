@@ -10,7 +10,7 @@ import SmartLink from "./SmartLink";
 function Post({ el, ua }) {
   const generateSvg = (w, h) =>
     `data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='${w}' height='${h}' ><rect width='${w}' height='${h}' style="fill:rgb(235,235,230)"/></svg>`;
-  const [avatar, setAvatar] = useState(generateSvg(50, 50));
+  const [avatar, setAvatar] = useState(ua && ua.isBot ? el.user_avatar : generateSvg(50, 50));
   const [image, setImage] = useState(
     ua && ua.isBot ? el.image : generateSvg(el.metadata.width, el.metadata.height)
   );
