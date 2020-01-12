@@ -10,7 +10,6 @@ import breakpointCols from "../../utils/breakpointCols";
 import Footer from "../../components/Footer";
 import updatePostInList from "../../utils/updatePostInList";
 import AuthModal from "../../components/AuthModal";
-import StoreContext from "storeon/react/context";
 
 let cache = {};
 

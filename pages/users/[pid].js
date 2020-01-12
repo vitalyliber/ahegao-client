@@ -10,15 +10,10 @@ import breakpointCols from "../../utils/breakpointCols";
 import Footer from "../../components/Footer";
 import updatePostInList from "../../utils/updatePostInList";
 import AuthModal from "../../components/AuthModal";
-import useStoreon from "storeon/react";
 
 let cache = {};
 
 const Users = props => {
-  const {
-    ui: { burgerVisible }
-  } = useStoreon("ui");
-  console.log('99999', burgerVisible)
   const router = useRouter();
   const { pid } = router.query;
   useScrollRestoration();

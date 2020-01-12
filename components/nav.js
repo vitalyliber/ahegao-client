@@ -11,8 +11,6 @@ const Nav = ({ router }) => {
     categories: { list },
     ui: { burgerVisible }
   } = useStoreon("user", "categories", "ui");
-  console.log('8888888', burgerVisible)
-
 
   useEffect(() => {
     const handleRouteChange = url => {
