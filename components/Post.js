@@ -7,12 +7,12 @@ import InstagramBtn from "./InstagramBtn";
 import LikeBtn from "./LikeBtn";
 import SmartLink from "./SmartLink";
 
-function Post({ el }) {
+function Post({ el, ua }) {
   const generateSvg = (w, h) =>
     `data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='${w}' height='${h}' ><rect width='${w}' height='${h}' style="fill:rgb(235,235,230)"/></svg>`;
   const [avatar, setAvatar] = useState(generateSvg(50, 50));
   const [image, setImage] = useState(
-    generateSvg(el.metadata.width, el.metadata.height)
+    ua && ua.isBot ? el.image : generateSvg(el.metadata.width, el.metadata.height)
   );
   return (
     <Waypoint
@@ -60,7 +60,9 @@ function Post({ el }) {
                   href="/categories/[pid]"
                   as={`/categories/${category.label}`}
                 >
-                  <a className="badge badge-dark ml-1" href="#">{category.label}</a>
+                  <a className="badge badge-dark ml-1" href="#">
+                    {category.label}
+                  </a>
                 </SmartLink>
               );
             })}

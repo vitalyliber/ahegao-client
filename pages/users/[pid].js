@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
+import { withUserAgent } from 'next-useragent'
 import Masonry from "react-masonry-css";
 import Nav from "../../components/nav";
 import Post from "../../components/Post";
@@ -17,7 +18,7 @@ const Users = props => {
   const router = useRouter();
   const { pid } = router.query;
   useScrollRestoration();
-  const { data: initialData } = props;
+  const { data: initialData, ua } = props;
   const [data, setData] = useState(initialData);
   useEffect(() => {
     if (process.browser) {
@@ -40,7 +41,7 @@ const Users = props => {
           )}
           {products.length > 1 && (
             <Masonry
-              breakpointCols={breakpointCols}
+              breakpointCols={breakpointCols(ua.isMobile)}
               className="my-masonry-grid"
               columnClassName="my-masonry-grid_column"
             >
@@ -49,6 +50,7 @@ const Users = props => {
                   <Post
                     key={el.id}
                     el={{ ...el, updatePost: updatePostInList(setData) }}
+                    ua={ua}
                   />
                 );
               })}
@@ -106,4 +108,4 @@ Users.getInitialProps = async params => {
   return { data: data };
 };
 
-export default Users;
+export default withUserAgent(Users);

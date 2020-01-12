@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Masonry from "react-masonry-css";
+import { withUserAgent } from 'next-useragent'
 import Nav from "../components/nav";
 import Post from "../components/Post";
 import useScrollRestoration from "../components/useScrollRestoration";
@@ -14,7 +15,7 @@ let cache = {};
 
 const Home = props => {
   useScrollRestoration();
-  const { data: initialData } = props;
+  const { data: initialData, ua } = props;
   const [data, setData] = useState(initialData);
   useEffect(() => {
     if (process.browser) {
@@ -32,7 +33,7 @@ const Home = props => {
         <p className="text-center text-black-50 mb-4">{total_count} ahegao pics</p>
         <div className="row">
           <Masonry
-            breakpointCols={breakpointCols}
+            breakpointCols={breakpointCols(ua.isMobile)}
             className="my-masonry-grid"
             columnClassName="my-masonry-grid_column"
           >
@@ -41,6 +42,7 @@ const Home = props => {
                 <Post
                   key={el.id}
                   el={{ ...el, updatePost: updatePostInList(setData) }}
+                  ua={ua}
                 />
               );
             })}
@@ -87,4 +89,4 @@ Home.getInitialProps = async params => {
   return { data: data };
 };
 
-export default Home;
+export default withUserAgent(Home);

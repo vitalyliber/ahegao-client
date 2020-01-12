@@ -1,7 +1,8 @@
+import React, { useEffect, useState } from "react";
 import Head from "next/head";
+import { withUserAgent } from "next-useragent";
 import Nav from "../../components/nav";
 import PostImage from "../../components/Post";
-import React, { useEffect, useState } from "react";
 import { getPost } from "../../api/posts";
 import useScrollRestoration from "../../components/useScrollRestoration";
 import HeadCommon from "../../components/HeadCommon";
@@ -14,7 +15,7 @@ let cache = {};
 
 const Posts = props => {
   useScrollRestoration();
-  const { data: initialData } = props;
+  const { data: initialData, ua } = props;
   const [data, setData] = useState(initialData);
   useEffect(() => {
     if (process.browser) {
@@ -34,7 +35,10 @@ const Posts = props => {
       <div className="container">
         <div className="row">
           <div className="col d-flex justify-content-center">
-            <PostImage el={{ ...data, updatePost: updatePost(setData) }} />
+            <PostImage
+              ua={ua}
+              el={{ ...data, updatePost: updatePost(setData) }}
+            />
           </div>
         </div>
       </div>
@@ -58,4 +62,4 @@ Posts.getInitialProps = async params => {
   return { data: data };
 };
 
-export default Posts;
+export default withUserAgent(Posts);
