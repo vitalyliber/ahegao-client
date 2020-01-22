@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { Waypoint } from "react-waypoint";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faDownload } from "@fortawesome/free-solid-svg-icons";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.extend(relativeTime);
@@ -50,6 +52,9 @@ function Post({ el, ua }) {
           <div>
             <InstagramBtn el={el} />
             <LikeBtn el={el} />
+            <a className="text-dark" href={`${el.image_direct}?disposition=attachment`}>
+              <FontAwesomeIcon className="ml-2" icon={faDownload}/>
+            </a>
           </div>
 
           <div>
