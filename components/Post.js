@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, Fragment } from "react";
 import { Waypoint } from "react-waypoint";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDownload } from "@fortawesome/free-solid-svg-icons";
@@ -9,12 +9,16 @@ import InstagramBtn from "./InstagramBtn";
 import LikeBtn from "./LikeBtn";
 import SmartLink from "./SmartLink";
 
-function Post({ el, ua }) {
+function Post({ el, ua, showText }) {
   const generateSvg = (w, h) =>
     `data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='${w}' height='${h}' ><rect width='${w}' height='${h}' style="fill:rgb(235,235,230)"/></svg>`;
-  const [avatar, setAvatar] = useState(ua && ua.isBot ? el.user_avatar_direct : generateSvg(50, 50));
+  const [avatar, setAvatar] = useState(
+    ua && ua.isBot ? el.user_avatar_direct : generateSvg(50, 50)
+  );
   const [image, setImage] = useState(
-    ua && ua.isBot ? el.image_direct : generateSvg(el.metadata.width, el.metadata.height)
+    ua && ua.isBot
+      ? el.image_direct
+      : generateSvg(el.metadata.width, el.metadata.height)
   );
   return (
     <Waypoint
@@ -52,8 +56,11 @@ function Post({ el, ua }) {
           <div>
             <InstagramBtn el={el} />
             <LikeBtn el={el} />
-            <a className="text-dark" href={`${el.image_direct}?disposition=attachment`}>
-              <FontAwesomeIcon className="ml-2" icon={faDownload}/>
+            <a
+              className="text-dark"
+              href={`${el.image_direct}?disposition=attachment`}
+            >
+              <FontAwesomeIcon className="ml-2" icon={faDownload} />
             </a>
           </div>
 
@@ -73,9 +80,38 @@ function Post({ el, ua }) {
             })}
           </div>
         </div>
+        {showText && (
+          <div className="mt-3 textContainer">
+            {el.text.split("\n").map((item, index) => {
+              return (
+                <Fragment key={index}>
+                  {item}
+                  <br />
+                </Fragment>
+              );
+            })}
+          </div>
+        )}
+        <style jsx>{`
+          .textContainer {
+            padding-left: 1rem;
+            padding-right: 1rem;
+          }
+          @media (min-width: 576px) {
+            .textContainer {
+              width: 460px;
+              padding-left: 0rem;
+              padding-right: 0rem;
+            }
+          }
+        `}</style>
       </div>
     </Waypoint>
   );
 }
+
+Post.defaultProps = {
+  showText: false
+};
 
 export default Post;
