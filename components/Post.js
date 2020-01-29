@@ -81,7 +81,7 @@ function Post({ el, ua, showText }) {
           </div>
         </div>
         {showText && (
-          <div className="mt-3 textContainer">
+          <p className="mt-3 textContainer">
             {el.text.split("\n").map((item, index) => {
               return (
                 <Fragment key={index}>
@@ -90,7 +90,7 @@ function Post({ el, ua, showText }) {
                 </Fragment>
               );
             })}
-          </div>
+          </p>
         )}
         <style jsx>{`
           .textContainer {
