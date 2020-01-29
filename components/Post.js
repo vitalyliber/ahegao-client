@@ -52,6 +52,17 @@ function Post({ el, ua, showText }) {
             <img className="img-fluid" src={image} alt="Ahegao face" />
           </a>
         </SmartLink>
+        {el.status === "premium_published" && (
+          <>
+            <h6 className="text-center mt-3 premiumTitle">{el.premium_title}</h6>
+            <div className="d-flex justify-content-between align-items-center">
+              <h5 className="mb-0 price">{el.price}</h5>
+              <button type="button" className="btn btn-outline-primary btn-sm">
+                Buy images
+              </button>
+            </div>
+          </>
+        )}
         <div className="d-flex justify-content-between ml-2 ml-sm-0 mr-2 mr-sm-0 mt-3">
           <div>
             <InstagramBtn el={el} />
@@ -93,6 +104,12 @@ function Post({ el, ua, showText }) {
           </p>
         )}
         <style jsx>{`
+          .premiumTitle {
+            color: #343434;
+          }
+          .price {
+            color: #f11b86;
+          }
           .wordBreak {
             word-break: break-all;
           }
