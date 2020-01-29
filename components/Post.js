@@ -81,7 +81,7 @@ function Post({ el, ua, showText }) {
           </div>
         </div>
         {showText && (
-          <p className="mt-3 textContainer">
+          <p className="mt-3 ml-3 mr-3 ml-sm-0 mr-sm-0 wordBreak">
             {el.text.split("\n").map((item, index) => {
               return (
                 <Fragment key={index}>
@@ -93,16 +93,8 @@ function Post({ el, ua, showText }) {
           </p>
         )}
         <style jsx>{`
-          .textContainer {
-            padding-left: 1rem;
-            padding-right: 1rem;
-          }
-          @media (min-width: 576px) {
-            .textContainer {
-              width: 460px;
-              padding-left: 0rem;
-              padding-right: 0rem;
-            }
+          .wordBreak {
+            word-break: break-all;
           }
         `}</style>
       </div>

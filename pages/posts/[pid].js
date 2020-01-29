@@ -32,12 +32,16 @@ const Posts = props => {
         <meta name="twitter:image" content={data.image} />
       </Head>
       <Nav />
-      <div className="d-flex justify-content-center">
-        <PostImage
-          showText
-          ua={ua}
-          el={{ ...data, updatePost: updatePost(setData) }}
-        />
+      <div className="container">
+        <div className="row">
+          <div className="col-md-8 offset-md-2 col-lg-6 offset-lg-3 col-sm-10 offset-sm-1 pl-0 pr-0">
+            <PostImage
+              showText
+              ua={ua}
+              el={{ ...data, updatePost: updatePost(setData) }}
+            />
+          </div>
+        </div>
       </div>
       <Footer />
       <AuthModal />
