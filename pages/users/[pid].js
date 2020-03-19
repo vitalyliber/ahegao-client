@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import { withUserAgent } from 'next-useragent'
+import { withUserAgent } from "next-useragent";
 import Masonry from "react-masonry-css";
 import Nav from "../../components/nav";
 import Post from "../../components/Post";
@@ -36,7 +36,10 @@ const Users = props => {
         <div className="row">
           {products.length === 1 && (
             <div className="col d-flex justify-content-center">
-              <Post el={{ ...products[0], updatePost: updatePostInList(setData) }} />
+              <Post
+                el={{ ...products[0], updatePost: updatePostInList(setData) }}
+                single
+              />
             </div>
           )}
           {products.length > 1 && (
@@ -95,11 +98,7 @@ Users.getInitialProps = async params => {
     query: { pid }
   } = params;
   let data;
-  if (
-    cache["data"] &&
-    cache["pid"] &&
-    cache["pid"] === pid
-  ) {
+  if (cache["data"] && cache["pid"] && cache["pid"] === pid) {
     data = cache["data"];
   } else {
     const resData = await getPosts({ user_id: pid, ctx: params });

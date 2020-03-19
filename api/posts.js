@@ -19,7 +19,8 @@ export const getPosts = ({
       page,
       per,
       category_title,
-      user_id
+      user_id,
+      all_types: true
     },
     data: null,
     headers: {
