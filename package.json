@@ -23,7 +23,7 @@
     "bootstrap": "^4.4.1",
     "dayjs": "^1.8.17",
     "js-cookie": "^2.2.1",
-    "next": "9.1.7",
+    "next": "9.3.2",
     "next-cookies": "^2.0.3",
     "next-useragent": "^2.0.1",
     "node-sass": "^4.13.0",
