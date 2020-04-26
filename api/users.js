@@ -1,5 +1,4 @@
 import Axios from "axios";
-import getIsomorphicToken from "../utils/getIsomorphicToken";
 import hostname from "./hostname";
 
 export const getInstagramName = instagram_user_id => {
@@ -10,37 +9,3 @@ export const getInstagramName = instagram_user_id => {
   });
 };
 
-export const getAuthToken = email => {
-  return Axios({
-    method: 'post',
-    url: `${hostname}/api/users`,
-    data: { user: { email } },
-    headers: {
-      'Content-type': 'application/json',
-    }
-  });
-};
-
-export const getToken = (email, auth_code) => {
-  console.log(email, auth_code);
-  return Axios({
-    method: 'post',
-    url: `${hostname}/api/tokens`,
-    data: { user: { email, auth_code } },
-    headers: {
-      'Content-type': 'application/json',
-    }
-  });
-};
-
-export const fetchProfile = (ctx) => {
-  return Axios({
-    method: 'get',
-    url: `${hostname}/api/users`,
-    data: null,
-    headers: {
-      'Content-type': 'application/json',
-      Authorization: `Bearer ${getIsomorphicToken(ctx)}`
-    }
-  })
-};

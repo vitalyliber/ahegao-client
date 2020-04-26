@@ -1,92 +1,52 @@
-import React, { useState, useEffect } from "react";
-import Masonry from "react-masonry-css";
-import { withUserAgent } from 'next-useragent'
+import React from "react";
 import Nav from "../components/nav";
 import Post from "../components/Post";
-import useScrollRestoration from "../components/useScrollRestoration";
 import { getPosts } from "../api/posts";
 import HeadCommon from "../components/HeadCommon";
-import breakpointCols from "../utils/breakpointCols";
 import Footer from "../components/Footer";
-import updatePostInList from "../utils/updatePostInList";
-import AuthModal from "../components/AuthModal";
-
-let cache = {};
+import { getCategories } from "../api/categories";
+import Pagination from "../components/Pagination";
+import Categories from "../components/Categories";
 
 const Home = props => {
-  useScrollRestoration();
-  const { data: initialData, ua } = props;
-  const [data, setData] = useState(initialData);
-  useEffect(() => {
-    if (process.browser) {
-      cache["data"] = data;
-    }
-  }, [data]);
-  const [loading, setLoading] = useState(false);
-  const { products, total_count } = data;
+  const { data, categories } = props;
+  const { products, total_count, total_pages, current_page, last_page } = data;
 
   return (
     <>
       <HeadCommon />
       <Nav />
       <div className="container">
-        <p className="text-center text-black-50 mb-4">{total_count} ahegao pics</p>
+        <Categories list={categories} />
+        <p className="text-center text-black-50 mb-4">
+          {total_count} ahegao pics
+        </p>
         <div className="row">
-          <Masonry
-            breakpointCols={breakpointCols(ua.isMobile)}
-            className="my-masonry-grid"
-            columnClassName="my-masonry-grid_column"
-          >
+          <div className="card-columns">
             {products.map(el => {
-              return (
-                <Post
-                  key={el.id}
-                  el={{ ...el, updatePost: updatePostInList(setData) }}
-                  ua={ua}
-                />
-              );
+              return <Post key={el.id} el={el} />;
             })}
-          </Masonry>
+          </div>
+          <Pagination
+            totalPages={total_pages}
+            currentPage={current_page}
+            lastPage={last_page}
+            href="/new/[id]"
+            as={page => `/new/${page}`}
+          />
         </div>
-        {!data.last_page && (
-          <button
-            disabled={loading}
-            className="btn btn-outline-info btn-block mb-4"
-            onClick={async () => {
-              setLoading(true);
-              try {
-                const newData = await await getPosts({ page: data.next_page });
-                const mergedData = {
-                  ...newData.data,
-                  products: [...products, ...newData.data.products]
-                };
-                setData(mergedData);
-              } catch (e) {
-                console.log(e);
-              } finally {
-                setLoading(false);
-              }
-            }}
-          >
-            {loading ? "Loading..." : "Load more"}
-          </button>
-        )}
       </div>
       <Footer />
-      <AuthModal />
     </>
   );
 };
 
-Home.getInitialProps = async params => {
-  let data;
-  if (cache["data"]) {
-    data = cache["data"];
-  } else {
-    const resData = await getPosts({ ctx: params });
-    data = resData.data;
-  }
-  return { data: data };
-};
+export default Home;
 
-export default withUserAgent(Home);
+export async function getStaticProps({ params }) {
+  const {
+    data: { categories }
+  } = await getCategories();
+  const { data } = await getPosts();
+  return { revalidate: 1, props: { data, categories } };
+}
