@@ -10,9 +10,10 @@ export default async (req, res) => {
     res.end(JSON.stringify({ error: "Server token error" }));
     return;
   }
-  const listPhotos = await Promise.all(
-    links.map(link => vkPreparePhotoForPosting(link))
-  );
+  let listPhotos = [];
+  for (const link of links) {
+    listPhotos = [...listPhotos, await vkPreparePhotoForPosting(link)];
+  }
   const publishResponse = await fetch(
     `https://api.vk.com/method/wall.post?owner_id=-${group_id}&attachments=${listPhotos}&access_token=${token}&v=5.101`
   );
