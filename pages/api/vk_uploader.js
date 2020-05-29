@@ -15,7 +15,12 @@ export default async (req, res) => {
     listPhotos = [...listPhotos, await vkPreparePhotoForPosting(link)];
   }
   const publishResponse = await fetch(
-    `https://api.vk.com/method/wall.post?owner_id=-${group_id}&attachments=${listPhotos}&access_token=${token}&v=5.101`
+    `https://api.vk.com/method/wall.post?owner_id=-${group_id}&attachments=${listPhotos}&access_token=${token}&v=5.101`,
+    {
+      method: 'post',
+      body: 'message=#ahegao #ахегао #hentai #хентай #вайфу',
+      headers: { 'Content-type': 'application/x-www-form-urlencoded' }
+    }
   );
   const publishJson = await publishResponse.json();
   console.log(publishJson);
