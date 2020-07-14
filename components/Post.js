@@ -66,6 +66,12 @@ function Post({ el, showText, single }) {
             width="100%"
             height="100%"
           />
+          <video
+            poster={el.video_preview}
+            src={el.video}
+            preload="none"
+            style={{ display: "none" }}
+          />
         </div>
       )}
       {el.status === "premium_published" && (
