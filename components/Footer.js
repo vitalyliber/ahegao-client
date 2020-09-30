@@ -1,7 +1,7 @@
 import React from "react";
 import dayjs from "dayjs";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGithub, faTwitter, faTelegram } from '@fortawesome/free-brands-svg-icons';
+import { faGithub, faTwitter, faTelegram, faVk } from '@fortawesome/free-brands-svg-icons';
 
 function Footer() {
   return (
@@ -29,6 +29,13 @@ function Footer() {
             href="https://t.me/ahegaolikes"
           >
             <FontAwesomeIcon color="black" size="lg" icon={faTelegram} />
+          </a>
+          <a
+            className="text-dark ml-3"
+            target="_blank"
+            href="https://vk.com/public182348311"
+          >
+            <FontAwesomeIcon color="black" size="lg" icon={faVk} />
           </a>
         </p>
       </div>

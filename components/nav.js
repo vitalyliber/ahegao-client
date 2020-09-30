@@ -2,23 +2,45 @@ import React from "react";
 import { withUserAgent } from "next-useragent";
 import SmartLink from "./SmartLink";
 
+const advertisement = {
+  ios: {
+    name: "Birthday Reminder",
+    icon: "https://bip.casply.com/logo.png",
+    link: "https://apps.apple.com/us/app/bip-birthday-reminder/id1532232017"
+  },
+  android: {
+    name: "Birthday Reminder",
+    icon: "https://bip.casply.com/logo.png",
+    link:
+      "https://play.google.com/store/apps/details?id=com.casply.birthdayreminder"
+  }
+};
+
 const Nav = ({ ua }) => {
-  const { isAndroid } = ua || { isAndroid: false };
+  const { isAndroid, isIos } = ua || {
+    isAndroid: false,
+    isIos: false
+  };
+  let advertisementObject = null;
+  if (isAndroid) {
+    advertisementObject = advertisement.android;
+  }
+  if (isIos) {
+    advertisementObject = advertisement.ios;
+  }
 
   return (
     <div>
-      {isAndroid && (
+      {advertisementObject && (
         <div className="d-flex flex-row bg-white p-4 align-content-center justify-content-between">
           <div className="d-flex flex-row justify-content-center align-items-center">
-            <img
-              height="30"
-              width="30"
-              src="https://lh3.googleusercontent.com/E6zwMOob9cK0kcoCImy_5Zdev_FQluLGVIlIVNEJ0UihtmrtnQUh_a45bKfGvfjzafk=s180-rw"
-            />
-            <div className="ml-2 font-weight-bolder">Birthday Reminder</div>
+            <img height="30" width="30" src={advertisementObject.icon} />
+            <div className="ml-2 font-weight-bolder">
+              {advertisementObject.name}
+            </div>
           </div>
           <a
-            href="https://play.google.com/store/apps/details?id=com.casply.birthdayreminder"
+            href={advertisementObject.link}
             target="_blank"
             className="btn btn-info text-white"
           >
