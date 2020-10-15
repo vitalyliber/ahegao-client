@@ -8,6 +8,10 @@
     "start": "next start -p 5000",
     "deploy": "git push dokku@casply.com:ahegao-client master"
   },
+  "volta": {
+    "node": "12.19.0",
+    "yarn": "1.22.10"
+  },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.26",
     "@fortawesome/free-brands-svg-icons": "^5.12.0",
