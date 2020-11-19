@@ -87,7 +87,6 @@ function Post({ el, showText, single }) {
       )}
       <div className="d-flex justify-content-between ml-2 ml-sm-0 mr-2 mr-sm-0 mt-3">
         <div>
-          <InstagramBtn el={el} />
           <a
             className="text-dark"
             href={`${el.image_direct}?disposition=attachment`}
