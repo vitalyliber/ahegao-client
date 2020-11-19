@@ -1,8 +1,6 @@
 import React, { useState } from "react";
-import { Collapse, Button } from "reactstrap";
+import Image from "next/image";
 import Link from "next/link";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars } from "@fortawesome/free-solid-svg-icons";
 
 const Categories = ({ list }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -10,37 +8,26 @@ const Categories = ({ list }) => {
 
   return (
     <div className="mb-3">
-      <div className="w-100 d-flex justify-content-end">
-        <Button onClick={toggle} color="dark" className="btn-sm">
-          Categories{" "}
-          <FontAwesomeIcon
-            color="white"
-            size="lg"
-            icon={faBars}
-            className="ml-2"
-          />
-        </Button>
-      </div>
-      <Collapse isOpen={isOpen}>
-        <div className="list-group mt-3">
-          {list.map(({ label }) => (
-            <Link
+      <h4>Categories</h4>
+      <div className="scrollmenu">
+        {list.map(({ label }) => (
+          <Link
+            key={label}
+            href="/categories/[id]/[page]"
+            as={`/categories/${label}/1`}
+          >
+            <a
+              className="float-text-container"
+              onClick={toggle}
               key={label}
-              href="/categories/[id]/[page]"
-              as={`/categories/${label}/1`}
+              type="button"
             >
-              <a
-                onClick={toggle}
-                key={label}
-                type="button"
-                className="list-group-item list-group-item-action"
-              >
-                {label}
-              </a>
-            </Link>
-          ))}
-        </div>
-      </Collapse>
+              <Image width={200} height={200} src={`/${label}.jpg`} />
+              <div className="float-text">{label}</div>
+            </a>
+          </Link>
+        ))}
+      </div>
     </div>
   );
 };

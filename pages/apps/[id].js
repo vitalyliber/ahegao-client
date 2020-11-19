@@ -68,5 +68,5 @@ export async function getStaticProps({ params }) {
   const {
     data: { product }
   } = await getPost({ id });
-  return { unstable_revalidate: 1, props: { product, categories } };
+  return { revalidate: 1, props: { product, categories } };
 }
