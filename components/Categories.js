@@ -14,7 +14,7 @@ const Categories = ({ list }) => {
           <Link
             key={label}
             href="/categories/[id]/[page]"
-            as={`/categories/${label}/1`}
+            as={`/categories/${label.toLowerCase()}/1`}
           >
             <a
               className="float-text-container"
@@ -22,7 +22,11 @@ const Categories = ({ list }) => {
               key={label}
               type="button"
             >
-              <Image width={200} height={200} src={`/${label}.jpg`} />
+              <Image
+                width={200}
+                height={200}
+                src={`/${label.toLowerCase()}.jpg`}
+              />
               <div className="float-text">{label}</div>
             </a>
           </Link>
