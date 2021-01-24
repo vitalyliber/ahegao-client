@@ -20,7 +20,6 @@ const Categories = ({ list }) => {
               className="float-text-container"
               onClick={toggle}
               key={label}
-              type="button"
             >
               <Image
                 width={200}
