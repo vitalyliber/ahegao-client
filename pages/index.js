@@ -7,6 +7,7 @@ import Footer from "../components/Footer";
 import { getCategories } from "../api/categories";
 import Pagination from "../components/Pagination";
 import Categories from "../components/Categories";
+import AugmentedReality from "../components/AugmentedReality";
 
 const Home = props => {
   const { data, categories } = props;
@@ -18,6 +19,7 @@ const Home = props => {
       <Nav />
       <div className="container">
         <Categories list={categories} />
+        <AugmentedReality />
         <p className="text-center text-black-50 mb-4">
           {total_count} ahegao pics
         </p>

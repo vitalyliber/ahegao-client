@@ -1,11 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import * as gtag from "../utils/gtag";
 
 const Categories = ({ list }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const toggle = () => setIsOpen(!isOpen);
-
   return (
     <div className="mb-3">
       <h4>Categories</h4>
@@ -18,7 +16,12 @@ const Categories = ({ list }) => {
           >
             <a
               className="float-text-container"
-              onClick={toggle}
+              onClick={() => {
+                gtag.event({
+                  action: "Open category",
+                  category: label.toLowerCase()
+                });
+              }}
               key={label}
             >
               <Image
