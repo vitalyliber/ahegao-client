@@ -1,6 +1,7 @@
 import React from "react";
 import { withUserAgent } from "next-useragent";
 import SmartLink from "./SmartLink";
+import * as gtag from "../utils/gtag";
 
 const items = [
   {
@@ -71,6 +72,12 @@ const Nav = ({ ua }) => {
             href={advertisementObject.link}
             target="_blank"
             className="btn btn-info text-white"
+            onClick={() =>
+              gtag.event({
+                action: "Open Ad",
+                category: advertisementObject.name
+              })
+            }
           >
             Install
           </a>
