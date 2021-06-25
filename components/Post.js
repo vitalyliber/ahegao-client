@@ -5,9 +5,9 @@ import ReactPlayer from "react-player";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.extend(relativeTime);
-import InstagramBtn from "./InstagramBtn";
 import SmartLink from "./SmartLink";
 import Link from "next/link";
+import * as gtag from "../utils/gtag";
 
 function Post({ el, showText, single }) {
   const getDimension = type => {
@@ -22,7 +22,15 @@ function Post({ el, showText, single }) {
     <div className="card border-0 mb-3" style={{ width: single && "100%" }}>
       <div className="d-flex align-items-center mb-2 justify-content-between">
         <SmartLink href="/users/[pid]" as={`/users/${el.user_id}`}>
-          <a className="text-dark">
+          <a
+            onClick={() =>
+              gtag.event({
+                action: "Post actions",
+                category: "Open user profile"
+              })
+            }
+            className="text-dark"
+          >
             <div className="d-flex align-items-center">
               {el.user_avatar && (
                 <img
@@ -44,7 +52,14 @@ function Post({ el, showText, single }) {
       </div>
       {el.file_type === "image" && (
         <SmartLink href="/posts/[pid]" as={`/posts/${el.id}`}>
-          <a>
+          <a
+            onClick={() =>
+              gtag.event({
+                action: "Post actions",
+                category: "Click by post"
+              })
+            }
+          >
             <div className="wrapper">
               <img className="element" src={el.image} alt="Ahegao face" />
             </div>
@@ -61,10 +76,15 @@ function Post({ el, showText, single }) {
             }}
             url={el.video}
             light={el.video_preview}
-            playing
             controls
             width="100%"
             height="100%"
+            onPlay={() => {
+              gtag.event({
+                action: "Post actions",
+                category: "Play video"
+              });
+            }}
           />
           <video
             poster={el.video_preview}
@@ -88,6 +108,12 @@ function Post({ el, showText, single }) {
       <div className="d-flex justify-content-between ml-2 ml-sm-0 mr-2 mr-sm-0 mt-3">
         <div>
           <a
+            onClick={() =>
+              gtag.event({
+                action: "Post actions",
+                category: "Download"
+              })
+            }
             className="text-dark"
             href={`${el.image_direct}?disposition=attachment`}
           >

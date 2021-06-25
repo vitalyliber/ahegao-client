@@ -27,7 +27,8 @@ const Categories = ({ list }) => {
               <Image
                 width={200}
                 height={200}
-                src={`/${label.toLowerCase()}.jpg`}
+                src={require(`/public/${label.toLowerCase()}.jpg`)}
+                placeholder="blur"
               />
               <div className="float-text">{label}</div>
             </a>

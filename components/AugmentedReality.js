@@ -1,18 +1,21 @@
 import Image from "next/image";
 import * as gtag from "../utils/gtag";
+import animeGirl1 from "../public/augmented_reality/anime_girl_1.jpg";
+import animeGirl2 from "../public/augmented_reality/anime_girl_2.jpg";
+import animeGirl3 from "../public/augmented_reality/anime_girl_3.jpg";
 
 const list = [
   {
     url: "/augmented_reality/anime_girl_1.usdz",
-    image: "/augmented_reality/anime_girl_1.jpg"
+    image: animeGirl1
   },
   {
     url: "/augmented_reality/anime_girl_2.usdz",
-    image: "/augmented_reality/anime_girl_2.jpg"
+    image: animeGirl2
   },
   {
     url: "/augmented_reality/anime_girl_3.usdz",
-    image: "/augmented_reality/anime_girl_3.jpg"
+    image: animeGirl3
   }
 ];
 
@@ -47,6 +50,7 @@ export default function AugmentedReality() {
                   width="200"
                   height="200"
                   src={image}
+                  paceholder="blur"
                 />
               </a>
             </div>
