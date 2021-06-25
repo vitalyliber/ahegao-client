@@ -50,7 +50,7 @@ export default function AugmentedReality() {
                   width="200"
                   height="200"
                   src={image}
-                  paceholder="blur"
+                  placeholder="blur"
                 />
               </a>
             </div>
